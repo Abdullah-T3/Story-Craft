@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/localization/locale_cubit.dart';
 import 'package:story_craft/core/theme/theme_cubit.dart';
@@ -28,7 +29,8 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text('appTitle'.tr()),
+          toolbarHeight: 56.h,
+          title: Text('appTitle'.tr(), style: TextStyle(fontSize: 18.sp)),
           actions: [
             IconButton(
               tooltip: 'toggleTheme'.tr(),
@@ -66,24 +68,31 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               child: Column(
                 children: [
-                  Text('counterMessage'.tr()),
+                  Text(
+                    'counterMessage'.tr(),
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
                   Text(
                     '$_counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.headlineMedium?.copyWith(fontSize: 28.sp),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Text(
                   'samplePosts'.tr(),
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(fontSize: 16.sp),
                 ),
               ),
             ),
@@ -95,16 +104,28 @@ class _HomePageState extends State<HomePage> {
                     PostsLoaded(:final posts) => RefreshIndicator(
                       onRefresh: () => context.read<PostsCubit>().load(),
                       child: ListView.separated(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.w),
                         itemCount: posts.length,
-                          separatorBuilder: (context, index) =>
-                              const Divider(height: 1),
+                        separatorBuilder: (context, index) =>
+                            const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final post = posts[index];
                           return ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                            ),
                             dense: true,
-                            leading: CircleAvatar(child: Text('${post.id}')),
-                            title: Text(post.title),
+                            leading: CircleAvatar(
+                              radius: 18.r,
+                              child: Text(
+                                '${post.id}',
+                                style: TextStyle(fontSize: 12.sp),
+                              ),
+                            ),
+                            title: Text(
+                              post.title,
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
                           );
                         },
                       ),

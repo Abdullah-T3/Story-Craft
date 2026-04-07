@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/localization/locale_cubit.dart';
+import 'package:story_craft/core/responsive/responsive.dart';
 import 'package:story_craft/core/theme/app_theme.dart';
 import 'package:story_craft/core/theme/theme_cubit.dart';
 
@@ -17,7 +18,7 @@ class StoryCraftApp extends StatelessWidget {
         BlocProvider<ThemeCubit>.value(value: getIt<ThemeCubit>()),
         BlocProvider<LocaleCubit>.value(value: getIt<LocaleCubit>()),
       ],
-      child: const _StoryCraftMaterialApp(),
+      child: AppScreenUtilScope(child: const _StoryCraftMaterialApp()),
     );
   }
 }
