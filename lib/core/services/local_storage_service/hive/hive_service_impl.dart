@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'hive_service.dart';
+import 'package:story_craft/core/services/local_storage_service/hive/hive_service.dart';
 
 class HiveService<T> implements IHiveService<T> {
   Box<T>? _box;
