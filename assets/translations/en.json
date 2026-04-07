@@ -1,0 +1,14 @@
+{
+  "appTitle": "Story Craft",
+  "counterMessage": "You have pushed the button this many times:",
+  "incrementTooltip": "Increment",
+  "languageEnglish": "English",
+  "languageArabic": "Arabic",
+  "languageSystem": "System",
+  "toggleTheme": "Toggle theme",
+  "genericError": "Something went wrong",
+  "retry": "Retry",
+  "routeErrorTitle": "Page not found",
+  "routeErrorMessage": "No route matches this address:",
+  "samplePosts": "Sample API posts"
+}

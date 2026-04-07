@@ -1,0 +1,14 @@
+{
+  "appTitle": "حرفة القصة",
+  "counterMessage": "لقد ضغطت الزر هذا العدد من المرات:",
+  "incrementTooltip": "زيادة",
+  "languageEnglish": "الإنجليزية",
+  "languageArabic": "العربية",
+  "languageSystem": "النظام",
+  "toggleTheme": "تبديل النسق",
+  "genericError": "حدث خطأ ما",
+  "retry": "إعادة المحاولة",
+  "routeErrorTitle": "الصفحة غير موجودة",
+  "routeErrorMessage": "لا يوجد مسار لهذا العنوان:",
+  "samplePosts": "عينات من واجهة API"
+}
