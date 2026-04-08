@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AppErrorView extends StatelessWidget {
@@ -21,10 +20,13 @@ class AppErrorView extends StatelessWidget {
             color: Theme.of(context).colorScheme.error,
           ),
           const SizedBox(height: 16),
-          Text(message ?? 'genericError'.tr(), textAlign: TextAlign.center),
+          Text(
+            message ?? 'Something went wrong. Please try again.',
+            textAlign: TextAlign.center,
+          ),
           if (onRetry != null) ...[
             const SizedBox(height: 24),
-            FilledButton(onPressed: onRetry, child: Text('retry'.tr())),
+            FilledButton(onPressed: onRetry, child: const Text('Retry')),
           ],
         ],
       ),

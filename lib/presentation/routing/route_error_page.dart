@@ -1,22 +1,24 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:story_craft/app/router/routs.dart';
+import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
 
 class RouteErrorPage extends StatelessWidget {
-  const RouteErrorPage({super.key, required this.state});
+  const RouteErrorPage({super.key, this.routeName});
 
-  final GoRouterState state;
+  final String? routeName;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('routeErrorTitle'.tr())),
+      appBar: AppBar(title: const Text('Route error')),
       body: Center(
         child: AppErrorView(
-          message: '${'routeErrorMessage'.tr()}\n${state.uri}',
-          onRetry: () => context.go(Routes.homePath),
+          message: 'Could not open this route:\n${routeName ?? 'unknown'}',
+          onRetry: () => context.pushNamedAndRemoveUntil(
+            AppRoutes.homePath,
+            predicate: (_) => false,
+          ),
         ),
       ),
     );

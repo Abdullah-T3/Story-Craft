@@ -1,9 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/di/service_locator.dart';
-import 'package:story_craft/core/localization/locale_cubit.dart';
 import 'package:story_craft/core/theme/theme_cubit.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
 import 'package:story_craft/core/widgets/app_loading.dart';
@@ -30,37 +28,16 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           toolbarHeight: 56.h,
-          title: Text('appTitle'.tr(), style: TextStyle(fontSize: 18.sp)),
+          title: Text('Story Craft', style: TextStyle(fontSize: 18.sp)),
           actions: [
             IconButton(
-              tooltip: 'toggleTheme'.tr(),
+              tooltip: 'Toggle theme',
               onPressed: () => context.read<ThemeCubit>().toggleLightDark(),
               icon: Icon(
                 Theme.of(context).brightness == Brightness.dark
                     ? Icons.light_mode
                     : Icons.dark_mode,
               ),
-            ),
-            PopupMenuButton<Locale?>(
-              onSelected: (locale) {
-                context.read<LocaleCubit>().setLocale(locale);
-                if (locale == null) {
-                  context.resetLocale();
-                  return;
-                }
-                context.setLocale(locale);
-              },
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: const Locale('en'),
-                  child: Text('languageEnglish'.tr()),
-                ),
-                PopupMenuItem(
-                  value: const Locale('ar'),
-                  child: Text('languageArabic'.tr()),
-                ),
-                PopupMenuItem(value: null, child: Text('languageSystem'.tr())),
-              ],
             ),
           ],
         ),
@@ -72,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Text(
-                    'counterMessage'.tr(),
+                    'You have pushed the button this many times:',
                     style: TextStyle(fontSize: 14.sp),
                   ),
                   Text(
@@ -89,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Text(
-                  'samplePosts'.tr(),
+                  'Sample posts',
                   style: Theme.of(
                     context,
                   ).textTheme.titleMedium?.copyWith(fontSize: 16.sp),
@@ -147,7 +124,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: _increment,
-          tooltip: 'incrementTooltip'.tr(),
+          tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
       ),
