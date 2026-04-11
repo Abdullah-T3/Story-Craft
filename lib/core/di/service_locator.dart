@@ -10,9 +10,6 @@ import 'package:story_craft/features/auth/domain/usecases/login_with_email_useca
 import 'package:story_craft/features/auth/domain/usecases/login_with_google_usecase.dart';
 import 'package:story_craft/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:story_craft/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:story_craft/features/posts/data/repositories/posts_repository_impl.dart';
-import 'package:story_craft/features/posts/domain/repositories/posts_repository.dart';
-import 'package:story_craft/features/posts/presentation/cubit/posts_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -36,17 +33,12 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton(
       () => LoginWithGoogleUseCase(getIt<AuthRepository>()),
     )
-    ..registerLazySingleton(
-      () => ResetPasswordUseCase(getIt<AuthRepository>()),
-    )
+    ..registerLazySingleton(() => ResetPasswordUseCase(getIt<AuthRepository>()))
     ..registerFactory(
       () => AuthCubit(
         loginWithEmail: getIt<LoginWithEmailUseCase>(),
         loginWithGoogle: getIt<LoginWithGoogleUseCase>(),
         resetPassword: getIt<ResetPasswordUseCase>(),
       ),
-    )
-    // Posts
-    ..registerLazySingleton<PostsRepository>(() => const PostsRepositoryImpl())
-    ..registerFactory(() => PostsCubit(getIt<PostsRepository>()));
+    );
 }
