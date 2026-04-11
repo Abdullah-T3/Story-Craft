@@ -42,8 +42,7 @@ class _LoginViewState extends State<_LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: _buildBottomIcons(),
+      backgroundColor: const Color(0xFFF3F0FF),
       body: BlocListener<AuthCubit, AuthState>(
         listener: _handleAuthState,
         child: SafeArea(
@@ -105,9 +104,9 @@ class _LoginViewState extends State<_LoginView> {
               Container(
                 width: 72.w,
                 height: 72.w,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF74C69D),
-                  shape: BoxShape.circle,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2D6A4F),
+                  borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Icon(
                   Icons.auto_stories_rounded,
@@ -137,7 +136,7 @@ class _LoginViewState extends State<_LoginView> {
         ),
         Positioned(
           top: 8.h,
-          right: 16.w,
+          left: 16.w,
           child: IconButton(
             onPressed: () {
               context.pushReplacementNamed(AppRoutes.homePath);
@@ -311,11 +310,11 @@ class _LoginViewState extends State<_LoginView> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Align(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.centerLeft,
         child: TextButton(
           onPressed: _showForgotPasswordDialog,
           style: TextButton.styleFrom(
-            foregroundColor: const Color(0xFFE07A5F),
+            foregroundColor: const Color(0xFF2D6A4F),
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -325,7 +324,7 @@ class _LoginViewState extends State<_LoginView> {
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: const Color(0xFFE07A5F),
+              color: const Color(0xFF2D6A4F),
             ),
           ),
         ),
@@ -468,50 +467,6 @@ class _LoginViewState extends State<_LoginView> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildBottomIcons() {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 40.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildDecorativeIcon(
-              icon: Icons.brush_rounded,
-              backgroundColor: const Color(0xFFE07A5F),
-            ),
-            _buildDecorativeIcon(
-              icon: Icons.palette_rounded,
-              backgroundColor: const Color(0xFFE8A598),
-            ),
-            _buildDecorativeIcon(
-              icon: Icons.sentiment_satisfied_alt_rounded,
-              backgroundColor: const Color(0xFF74C69D),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDecorativeIcon({
-    required IconData icon,
-    required Color backgroundColor,
-  }) {
-    return Container(
-      width: 48.w,
-      height: 48.w,
-      decoration: BoxDecoration(
-        color: backgroundColor.withValues(alpha: 0.3),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        color: backgroundColor,
-        size: 24.sp,
-      ),
     );
   }
 
