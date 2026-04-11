@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "662555295980",
+    "project_id": "story-book-9a330",
+    "storage_bucket": "story-book-9a330.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662555295980:android:867f356540dfaab29fe5c9",
+        "android_client_info": {
+          "package_name": "com.example.story_craft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662555295980-2u813kr0ukd984tige26fog1u8rfua3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPGm1rdUSXP2GhfQ6SnSBZn3xrixKxjtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662555295980-2u813kr0ukd984tige26fog1u8rfua3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
