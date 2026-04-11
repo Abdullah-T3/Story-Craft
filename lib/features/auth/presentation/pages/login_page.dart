@@ -42,7 +42,8 @@ class _LoginViewState extends State<_LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F0FF),
+      backgroundColor: Colors.white,
+
       body: BlocListener<AuthCubit, AuthState>(
         listener: _handleAuthState,
         child: SafeArea(
@@ -104,9 +105,9 @@ class _LoginViewState extends State<_LoginView> {
               Container(
                 width: 72.w,
                 height: 72.w,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2D6A4F),
-                  borderRadius: BorderRadius.circular(18.r),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF74C69D),
+                  shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.auto_stories_rounded,
@@ -136,7 +137,7 @@ class _LoginViewState extends State<_LoginView> {
         ),
         Positioned(
           top: 8.h,
-          left: 16.w,
+          right: 16.w,
           child: IconButton(
             onPressed: () {
               context.pushReplacementNamed(AppRoutes.homePath);
@@ -212,8 +213,9 @@ class _LoginViewState extends State<_LoginView> {
               if (value == null || value.trim().isEmpty) {
                 return 'يرجى إدخال البريد الإلكتروني';
               }
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                  .hasMatch(value.trim())) {
+              if (!RegExp(
+                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              ).hasMatch(value.trim())) {
                 return 'البريد الإلكتروني غير صالح';
               }
               return null;
@@ -248,10 +250,7 @@ class _LoginViewState extends State<_LoginView> {
         textAlign: TextAlign.right,
         decoration: InputDecoration(
           hintText: 'كلمة المرور السرية',
-          hintStyle: TextStyle(
-            color: const Color(0xFFAAAAAA),
-            fontSize: 14.sp,
-          ),
+          hintStyle: TextStyle(color: const Color(0xFFAAAAAA), fontSize: 14.sp),
           suffixIcon: const Icon(
             Icons.lock_outline_rounded,
             color: Color(0xFF2D6A4F),
@@ -283,10 +282,7 @@ class _LoginViewState extends State<_LoginView> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: const BorderSide(
-              color: Color(0xFF2D6A4F),
-              width: 2,
-            ),
+            borderSide: const BorderSide(color: Color(0xFF2D6A4F), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
@@ -310,11 +306,11 @@ class _LoginViewState extends State<_LoginView> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.centerRight,
         child: TextButton(
           onPressed: _showForgotPasswordDialog,
           style: TextButton.styleFrom(
-            foregroundColor: const Color(0xFF2D6A4F),
+            foregroundColor: const Color(0xFFE07A5F),
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -324,7 +320,7 @@ class _LoginViewState extends State<_LoginView> {
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF2D6A4F),
+              color: const Color(0xFFE07A5F),
             ),
           ),
         ),
@@ -343,8 +339,9 @@ class _LoginViewState extends State<_LoginView> {
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF2D6A4F),
               foregroundColor: Colors.white,
-              disabledBackgroundColor:
-                  const Color(0xFF2D6A4F).withValues(alpha: 0.6),
+              disabledBackgroundColor: const Color(
+                0xFF2D6A4F,
+              ).withValues(alpha: 0.6),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
@@ -381,10 +378,7 @@ class _LoginViewState extends State<_LoginView> {
         ),
         Text(
           'او',
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: const Color(0xFF999999),
-          ),
+          style: TextStyle(fontSize: 14.sp, color: const Color(0xFF999999)),
         ),
         Expanded(
           child: Divider(
@@ -439,10 +433,7 @@ class _LoginViewState extends State<_LoginView> {
       children: [
         Text(
           'ليس لديك حساب؟',
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: const Color(0xFF6B6B6B),
-          ),
+          style: TextStyle(fontSize: 14.sp, color: const Color(0xFF6B6B6B)),
         ),
         SizedBox(height: 12.h),
         SizedBox(
@@ -473,9 +464,9 @@ class _LoginViewState extends State<_LoginView> {
   void _onLogin() {
     if (_formKey.currentState?.validate() ?? false) {
       context.read<AuthCubit>().login(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          );
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
     }
   }
 
