@@ -21,7 +21,9 @@ Future<void> configureDependencies() async {
     ..registerSingleton<SharedPreferences>(prefs)
     ..registerLazySingleton(SecureStorageHelper.new)
     ..registerLazySingleton(() => SharedPrefsHelper(getIt<SharedPreferences>()))
-    ..registerLazySingleton<ThemeCubit>(ThemeCubit.new)
+    ..registerLazySingleton<ThemeCubit>(
+      () => ThemeCubit(getIt<SharedPrefsHelper>()),
+    )
     // Auth
     ..registerLazySingleton(FirebaseAuthDatasource.new)
     ..registerLazySingleton<AuthRepository>(
