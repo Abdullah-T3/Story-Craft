@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
+import 'package:story_craft/core/theme/app_theme_extension.dart';
 import 'package:story_craft/core/theme/app_typography.dart';
 
 /// Central light/dark [ThemeData] from the product design system.
@@ -82,6 +83,7 @@ abstract final class AppTheme {
       colorScheme: scheme,
       scaffoldBackgroundColor: scheme.surface,
       textTheme: textTheme,
+      extensions: const [AppThemeExtension.light],
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
@@ -214,6 +216,7 @@ abstract final class AppTheme {
       colorScheme: scheme,
       scaffoldBackgroundColor: scheme.surface,
       textTheme: textTheme,
+      extensions: const [AppThemeExtension.dark],
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
