@@ -24,6 +24,12 @@ final class CacheFailure extends Failure {
   const CacheFailure({super.message = 'Cache error'});
 }
 
+final class AuthFailure extends Failure {
+  const AuthFailure({required super.message, this.code});
+
+  final String? code;
+}
+
 final class UnknownFailure extends Failure {
   const UnknownFailure({super.message = 'Unknown error'});
 }
