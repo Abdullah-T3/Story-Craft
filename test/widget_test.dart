@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story_craft/app/story_craft_app.dart';
 import 'package:story_craft/core/di/service_locator.dart';
-import 'package:story_craft/core/error/failures.dart';
 
 void main() {
   setUpAll(() async {

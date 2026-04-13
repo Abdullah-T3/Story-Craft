@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/features/auth/presentation/pages/login_page.dart';
-import 'package:story_craft/presentation/routing/route_error_page.dart';
+import 'package:story_craft/app/router/route_error_page.dart';
 
 abstract final class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {

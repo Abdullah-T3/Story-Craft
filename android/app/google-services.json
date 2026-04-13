@@ -29,6 +29,13 @@
             {
               "client_id": "662555295980-2u813kr0ukd984tige26fog1u8rfua3s.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "662555295980-n08mv609612d41j8rc97qlmp1kft19pj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.storyCraft"
+              }
             }
           ]
         }
