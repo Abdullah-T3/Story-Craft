@@ -4,6 +4,7 @@ import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/main_scaffold.dart';
 import 'package:story_craft/core/widgets/widgets.dart';
+import 'package:story_craft/core/constants/assets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:story_craft/features/onboarding/presentation/widgets/mascot_section.dart';
@@ -36,7 +37,7 @@ class OnboardingScreen extends StatelessWidget {
                             top: 40.h,
                             left: -82.w,
                             child: SvgPicture.asset(
-                              'assets/icons/Cloud2.svg',
+                              Assets.cloud2,
                               width: 100.w,
                               height: 60.h,
                               fit: BoxFit.contain,
@@ -46,7 +47,7 @@ class OnboardingScreen extends StatelessWidget {
                             top: -60.h,
                             right: -50.w,
                             child: SvgPicture.asset(
-                              'assets/icons/Cloud1.svg',
+                              Assets.cloud1,
                               width: 100.w,
                               height: 60.h,
                               fit: BoxFit.contain,
@@ -88,7 +89,7 @@ class OnboardingScreen extends StatelessWidget {
                         style: AppButtonStyle.filled,
                         backgroundColor: AppColors.primaryDark,
                         suffixIcon: SvgPicture.asset(
-                          'assets/icons/SignIn.svg',
+                          Assets.signInIcon,
                           width: 16.w,
                           height: 16.h,
                         ),
@@ -104,7 +105,7 @@ class OnboardingScreen extends StatelessWidget {
                         label: 'أنشئ حساب جديد',
                         style: AppButtonStyle.outlined,
                         suffixIcon: SvgPicture.asset(
-                          'assets/icons/SignUp.svg',
+                          Assets.signUpIcon,
                           width: 16.w,
                           height: 16.h,
                         ),
@@ -138,7 +139,7 @@ class OnboardingScreen extends StatelessWidget {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/Bottom_Aesthetic_Curve.png',
+              Assets.bottomAestheticCurve,
               fit: BoxFit.fitWidth,
               height: 280.h,
             ),

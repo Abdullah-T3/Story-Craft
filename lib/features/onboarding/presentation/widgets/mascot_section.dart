@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
+import 'package:story_craft/core/constants/assets.dart';
 import 'package:story_craft/features/onboarding/presentation/widgets/dashed_circle_painter.dart';
 
 class MascotSection extends StatelessWidget {
@@ -42,7 +43,7 @@ class MascotSection extends StatelessWidget {
             ),
             child: Padding(
               padding: EdgeInsets.all(20.w),
-              child: Image.asset('assets/images/Mascot.png', fit: BoxFit.contain),
+              child: Image.asset(Assets.mascot, fit: BoxFit.contain),
             ),
           ),
         ),
