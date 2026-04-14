@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/theme/app_colors.dart';
 
-enum AppButtonStyle {
-  filled,
-  outlined,
-  transparent,
-}
+enum AppButtonStyle { filled, outlined, transparent }
 
 class Buttons extends StatelessWidget {
   const Buttons({
@@ -16,6 +13,8 @@ class Buttons extends StatelessWidget {
     this.isLoading = false,
     this.backgroundColor,
     this.borderColor,
+    this.textColor,
+    this.borderWidth = 2,
     this.margin,
     this.prefixIcon,
     this.suffixIcon,
@@ -29,6 +28,8 @@ class Buttons extends StatelessWidget {
 
   final Color? backgroundColor;
   final Color? borderColor;
+  final Color? textColor;
+  final double borderWidth;
   final EdgeInsetsGeometry? margin;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -36,20 +37,28 @@ class Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
-    final bg = backgroundColor ??
+    final bg =
+        backgroundColor ??
         switch (style) {
-          AppButtonStyle.filled => scheme.primary,
+          AppButtonStyle.filled => AppColors.primaryDark,
           AppButtonStyle.outlined => Colors.transparent,
           AppButtonStyle.transparent => Colors.transparent,
         };
 
-    final border = borderColor ??
+    final border =
+        borderColor ??
         switch (style) {
-          AppButtonStyle.filled => scheme.primary,
-          AppButtonStyle.outlined => scheme.outline,
+          AppButtonStyle.filled => AppColors.primaryDark,
+          AppButtonStyle.outlined => AppColors.primaryDark,
           AppButtonStyle.transparent => Colors.transparent,
+        };
+
+    final fg =
+        textColor ??
+        switch (style) {
+          AppButtonStyle.filled => Colors.white,
+          AppButtonStyle.outlined => AppColors.primaryDark,
+          AppButtonStyle.transparent => AppColors.primaryDark,
         };
 
     final spacing = iconSpacing ?? 8.w;
@@ -60,37 +69,34 @@ class Buttons extends StatelessWidget {
             height: 18.w,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation(
-                style == AppButtonStyle.filled
-                    ? scheme.onPrimary
-                    : scheme.primary,
-              ),
+              valueColor: AlwaysStoppedAnimation(fg),
             ),
           )
-        : (prefixIcon == null && suffixIcon == null 
-            ? Text(label)
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (prefixIcon != null) ...[prefixIcon!,
-                    SizedBox(width: spacing),
-                  ],
-                  Text(label),
-                  if (suffixIcon != null) ...[
-                    SizedBox(width: spacing),
-                    suffixIcon!,
-                  ],
-                ],
-              ));
+        : Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (prefixIcon != null) ...[
+                prefixIcon!,
+                SizedBox(width: spacing),
+              ],
+              Text(label, style: TextStyle(color: fg)),
+              if (suffixIcon != null) ...[
+                SizedBox(width: spacing),
+                suffixIcon!,
+              ],
+            ],
+          );
 
     Widget button;
+
     switch (style) {
       case AppButtonStyle.filled:
         button = FilledButton(
           onPressed: isLoading ? null : onPressed,
           style: FilledButton.styleFrom(
             backgroundColor: bg,
-            side: BorderSide(color: border),
+            foregroundColor: fg,
+            side: BorderSide(color: border, width: borderWidth),
             padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
           ),
           child: child,
@@ -102,7 +108,8 @@ class Buttons extends StatelessWidget {
           onPressed: isLoading ? null : onPressed,
           style: OutlinedButton.styleFrom(
             backgroundColor: bg,
-            side: BorderSide(color: border),
+            foregroundColor: fg,
+            side: BorderSide(color: border, width: borderWidth),
             padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
           ),
           child: child,
@@ -113,6 +120,8 @@ class Buttons extends StatelessWidget {
         button = TextButton(
           onPressed: isLoading ? null : onPressed,
           style: TextButton.styleFrom(
+            foregroundColor: fg,
+            side: BorderSide(color: border, width: borderWidth),
             padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
           ),
           child: child,
@@ -120,9 +129,6 @@ class Buttons extends StatelessWidget {
         break;
     }
 
-    return Container(
-      margin: margin ?? EdgeInsets.zero,
-      child: button,
-    );
+    return Container(margin: margin ?? EdgeInsets.zero, child: button);
   }
 }
