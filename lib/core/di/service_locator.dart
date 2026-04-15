@@ -10,6 +10,11 @@ import 'package:story_craft/features/auth/domain/usecases/login_with_email_useca
 import 'package:story_craft/features/auth/domain/usecases/login_with_google_usecase.dart';
 import 'package:story_craft/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:story_craft/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:story_craft/features/auth/sign_up/data/datasources/sign_up_remote_datasource.dart';
+import 'package:story_craft/features/auth/sign_up/data/repositories/sign_up_repository_impl.dart';
+import 'package:story_craft/features/auth/sign_up/domain/repositories/sign_up_repository.dart';
+import 'package:story_craft/features/auth/sign_up/domain/usecases/sign_up_usecase.dart';
+import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -42,5 +47,17 @@ Future<void> configureDependencies() async {
         loginWithGoogle: getIt<LoginWithGoogleUseCase>(),
         resetPassword: getIt<ResetPasswordUseCase>(),
       ),
+    )
+
+    // Sign Up
+    ..registerLazySingleton(SignUpRemoteDatasource.new)
+    ..registerLazySingleton<SignUpRepository>(
+      () => SignUpRepositoryImpl(getIt<SignUpRemoteDatasource>()),
+    )
+    ..registerLazySingleton(
+      () => SignUpUseCase(getIt<SignUpRepository>()),
+    )
+    ..registerFactory(
+      () => SignUpCubit(getIt<SignUpUseCase>()),
     );
 }

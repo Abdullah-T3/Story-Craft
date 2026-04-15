@@ -8,6 +8,22 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   final SignUpUseCase _signUpUseCase;
 
+  void goToNextStep() {
+    final current = state;
+
+    if (current is SignUpStepState && current.step < 1) {
+      emit(SignUpStepState(current.step + 1));
+    }
+  }
+
+  void goToPreviousStep() {
+    final current = state;
+
+    if (current is SignUpStepState && current.step > 0) {
+      emit(SignUpStepState(current.step - 1));
+    }
+  }
+
   Future<void> signUp(SignUpData data) async {
     emit(const SignUpLoading());
 

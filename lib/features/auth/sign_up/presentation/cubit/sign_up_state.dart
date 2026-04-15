@@ -21,3 +21,8 @@ final class SignUpError extends SignUpState {
   const SignUpError(this.message);
   final String message;
 }
+
+class SignUpStepState extends SignUpState {
+  final int step;
+  const SignUpStepState(this.step);
+}
