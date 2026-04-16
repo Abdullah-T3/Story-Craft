@@ -44,6 +44,7 @@ class AppTextField extends StatefulWidget {
     this.leadingIcon,
     this.keyboardType,
     this.textDirection,
+    this.backgroundColor,
     this.textAlign = TextAlign.start,
     this.layoutDirection = TextDirection.rtl,
     this.isPassword = false,
@@ -100,6 +101,7 @@ class AppTextField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onFieldSubmitted;
   final FocusNode? focusNode;
+  final Color? backgroundColor;
   final bool autofocus;
   final bool readOnly;
 
@@ -176,7 +178,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     )
                   : widget.leadingIcon,
               filled: true,
-              fillColor: Colors.white,
+              fillColor: widget.backgroundColor ?? Colors.white,
               border: _border(),
               enabledBorder: _border(
                 color: AppColors.primaryDark.withValues(alpha: 0.3),
