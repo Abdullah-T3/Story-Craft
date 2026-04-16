@@ -4,7 +4,8 @@ import 'package:story_craft/features/auth/sign_up/domain/usecases/sign_up_usecas
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(this._signUpUseCase) : super(const SignUpInitial());
+  SignUpCubit(this._signUpUseCase)
+    : super(const SignUpStepState(0));
 
   final SignUpUseCase _signUpUseCase;
 

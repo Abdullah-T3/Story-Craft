@@ -24,8 +24,8 @@ class SignUpStepIndicator extends StatelessWidget {
           height: 8,
           width: 180,
           decoration: BoxDecoration(
-            color: currentStep == index
-                ? AppColors.onPrimaryContainer
+            color: index <= currentStep
+                ? AppColors.primaryDark
                 : AppColors.borderLighter,
             borderRadius: BorderRadius.circular(25),
           ),

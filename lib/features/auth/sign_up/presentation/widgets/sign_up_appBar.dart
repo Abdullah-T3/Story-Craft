@@ -14,6 +14,8 @@ class SignUpAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
 
+      automaticallyImplyLeading: false,
+
       title: Text(
         'قصصي',
         style: TextStyle(

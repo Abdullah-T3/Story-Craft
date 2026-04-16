@@ -114,10 +114,14 @@ class SignUpStepOne extends StatelessWidget {
               return PasswordStrengthBar(password: value.text);
             },
           ),
-          SizedBox(height: 100.h),
+          SizedBox(height: 70.h),
           Buttons(
             label: 'التالي',
-            onPressed: context.read<SignUpCubit>().goToNextStep,
+            onPressed: () {
+              if (Form.of(context).validate()) {
+                context.read<SignUpCubit>().goToNextStep();
+              }
+            },
             style: AppButtonStyle.filled,
             suffixIcon: const Icon(Icons.arrow_forward, color: Colors.white),
             backgroundColor: AppColors.primaryDark,

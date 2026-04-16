@@ -21,20 +21,34 @@ class AgeChip extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 12.h),
           decoration: BoxDecoration(
-            color: selected ? AppColors.primaryDark : AppColors.surfaceContainerHigh,
-            borderRadius: BorderRadius.circular(16.r),
+            color: selected ? AppColors.primaryDark : AppColors.secondaryContainer.withValues(
+              alpha: 0.2,
+            ),
+            borderRadius: BorderRadius.circular(25.r),
             border: Border.all(
               color: selected ? AppColors.primaryDark : AppColors.borderLighter,
             ),
           ),
           child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: selected ? Colors.white : AppColors.textSecondary,
-                fontWeight: FontWeight.w600,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: selected ? Colors.white : AppColors.textPrimary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  'سنوات',
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: selected ? Colors.white : AppColors.textSecondary,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

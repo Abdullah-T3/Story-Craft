@@ -11,6 +11,7 @@ import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_sta
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/sign_up_appBar.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/sign_up_step_indicator.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/sign_up_step_one.dart';
+import 'package:story_craft/features/auth/sign_up/presentation/widgets/sign_up_step_two.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -41,7 +42,6 @@ class _SignUpViewState extends State<_SignUpView> {
 
   String ageCategory = '';
   bool agreed = false;
-  int step = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -52,25 +52,56 @@ class _SignUpViewState extends State<_SignUpView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SignUpAppBar(onBackPressed: () => context.pop()),
+                SignUpAppBar(onBackPressed: () {
+                    final cubit = context.read<SignUpCubit>();
+                    final state = cubit.state;
+                    if (state is SignUpStepState && state.step == 1) {
+                      cubit.goToPreviousStep(); 
+                    } else {
+                      context.pop(); 
+                    }
+                  },
+                ),
                 SizedBox(height: 24.h),
-                SignUpStepIndicator(currentStep: step),
+                BlocBuilder<SignUpCubit, SignUpState>(
+                  builder: (context, state) {
+                    int currentStep = 0;
+                    if (state is SignUpStepState) {
+                      currentStep = state.step;
+                    }
+                    return SignUpStepIndicator(currentStep: currentStep);
+                  },
+                ),
+
                 SizedBox(height: 44.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Form(
                     key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (step == 0)
-                          SignUpStepOne(
+                    child: BlocBuilder<SignUpCubit, SignUpState>(
+                      builder: (context, state) {
+                        
+                        if (state is SignUpStepState && state.step == 0) {
+                          return SignUpStepOne(
                             nameController: _nameController,
                             emailController: _emailController,
                             passwordController: _passwordController,
-                          ),
-                        SizedBox(height: 12.h),
-                      ],
+                          );
+                        }
+
+                        return SignUpStepTwo(
+                          childNameController: _childNameController,
+                          agreed: agreed,
+                          selectedAge: ageCategory,
+                          onAgeCategorySelected: (value) {
+                            setState(() => ageCategory = value);
+                          },
+                          onAgreementToggled: () {
+                            setState(() => agreed = !agreed);
+                          },
+                          onSubmit: _onSubmit,
+                        );
+                      },
                     ),
                   ),
                 ),
