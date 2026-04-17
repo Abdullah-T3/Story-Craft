@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_state.dart';
+import 'package:story_craft/core/widgets/app_inline_loader.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_state.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({required this.onPressed, super.key});
@@ -22,8 +23,9 @@ class LoginButton extends StatelessWidget {
             style: FilledButton.styleFrom(
               backgroundColor: AppColors.primaryDark,
               foregroundColor: Colors.white,
-              disabledBackgroundColor:
-                  AppColors.primaryDark.withValues(alpha: 0.6),
+              disabledBackgroundColor: AppColors.primaryDark.withValues(
+                alpha: 0.6,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
@@ -33,14 +35,7 @@ class LoginButton extends StatelessWidget {
               ),
             ),
             child: isLoading
-                ? SizedBox(
-                    width: 24.w,
-                    height: 24.w,
-                    child: const CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2.5,
-                    ),
-                  )
+                ? const AppInlineLoader(size: 24)
                 : const Text('دخول'),
           ),
         );

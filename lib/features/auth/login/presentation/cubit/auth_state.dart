@@ -27,3 +27,7 @@ final class AuthError extends AuthState {
 final class ResetPasswordSent extends AuthState {
   const ResetPasswordSent();
 }
+
+final class AuthLoggedOut extends AuthState {
+  const AuthLoggedOut();
+}

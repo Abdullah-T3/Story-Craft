@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
 
 /// Call [ForgotPasswordDialog.show] to present the reset-password dialog.
 class ForgotPasswordDialog extends StatefulWidget {
@@ -41,9 +41,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
           keyboardType: TextInputType.emailAddress,
           textDirection: TextDirection.ltr,
           textAlign: TextAlign.right,
-          decoration: const InputDecoration(
-            hintText: 'أدخل بريدك الإلكتروني',
-          ),
+          decoration: const InputDecoration(hintText: 'أدخل بريدك الإلكتروني'),
         ),
         actions: [
           TextButton(

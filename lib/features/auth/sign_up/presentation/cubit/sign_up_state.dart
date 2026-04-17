@@ -1,4 +1,4 @@
-import 'package:story_craft/features/auth/sign_up/domain/entities/sign_up_data.dart';
+import 'package:story_craft/features/auth/domain/entities/sign_up_data.dart';
 
 sealed class SignUpState {
   const SignUpState();

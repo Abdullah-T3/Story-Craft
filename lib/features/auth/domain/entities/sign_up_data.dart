@@ -6,6 +6,7 @@ class SignUpData {
     required this.childName,
     required this.ageCategory,
     required this.photoUrl,
+    this.localPhotoPath,
   });
 
   final String name;
@@ -14,6 +15,7 @@ class SignUpData {
   final String childName;
   final String ageCategory;
   final String photoUrl;
+  final String? localPhotoPath;
 
   SignUpData copyWith({
     String? name,
@@ -22,6 +24,7 @@ class SignUpData {
     String? childName,
     String? ageCategory,
     String? photoUrl,
+    String? localPhotoPath,
   }) {
     return SignUpData(
       name: name ?? this.name,
@@ -30,6 +33,7 @@ class SignUpData {
       childName: childName ?? this.childName,
       ageCategory: ageCategory ?? this.ageCategory,
       photoUrl: photoUrl ?? this.photoUrl,
+      localPhotoPath: localPhotoPath ?? this.localPhotoPath,
     );
   }
 }

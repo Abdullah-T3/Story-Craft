@@ -2,22 +2,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_craft/core/usecase/usecase.dart';
 import 'package:story_craft/features/auth/domain/usecases/login_with_email_usecase.dart';
 import 'package:story_craft/features/auth/domain/usecases/login_with_google_usecase.dart';
+import 'package:story_craft/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:story_craft/features/auth/domain/usecases/reset_password_usecase.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_state.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
     required LoginWithEmailUseCase loginWithEmail,
     required LoginWithGoogleUseCase loginWithGoogle,
     required ResetPasswordUseCase resetPassword,
-  })  : _loginWithEmail = loginWithEmail,
-        _loginWithGoogle = loginWithGoogle,
-        _resetPassword = resetPassword,
-        super(const AuthInitial());
+    required LogoutUseCase logout,
+  }) : _loginWithEmail = loginWithEmail,
+       _loginWithGoogle = loginWithGoogle,
+       _resetPassword = resetPassword,
+       _logout = logout,
+       super(const AuthInitial());
 
   final LoginWithEmailUseCase _loginWithEmail;
   final LoginWithGoogleUseCase _loginWithGoogle;
   final ResetPasswordUseCase _resetPassword;
+  final LogoutUseCase _logout;
 
   Future<void> login({required String email, required String password}) async {
     emit(const AuthLoading());
@@ -45,6 +49,15 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const ResetPasswordSent()),
+    );
+  }
+
+  Future<void> logout() async {
+    emit(const AuthLoading());
+    final result = await _logout(const NoParams());
+    result.fold(
+      (failure) => emit(AuthError(failure.message)),
+      (_) => emit(const AuthLoggedOut()),
     );
   }
 }

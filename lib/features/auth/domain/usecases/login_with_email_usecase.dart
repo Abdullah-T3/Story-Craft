@@ -3,7 +3,8 @@ import 'package:story_craft/core/usecase/usecase.dart';
 import 'package:story_craft/features/auth/domain/entities/app_user.dart';
 import 'package:story_craft/features/auth/domain/repositories/auth_repository.dart';
 
-class LoginWithEmailUseCase implements UseCase<AppResult<AppUser>, LoginParams> {
+class LoginWithEmailUseCase
+    implements UseCase<AppResult<AppUser>, LoginParams> {
   const LoginWithEmailUseCase(this._repository);
 
   final AuthRepository _repository;

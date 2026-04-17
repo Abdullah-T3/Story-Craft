@@ -6,17 +6,17 @@ import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/main_scaffold.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_state.dart';
-import 'package:story_craft/features/auth/presentation/widgets/forgot_password_dialog.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_button.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_email_field.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_forgot_password_button.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_google_button.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_header.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_or_divider.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_password_field.dart';
-import 'package:story_craft/features/auth/presentation/widgets/login_signup_section.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_state.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/forgot_password_dialog.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_button.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_email_field.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_forgot_password_button.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_google_button.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_header.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_or_divider.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_password_field.dart';
+import 'package:story_craft/features/auth/login/presentation/widgets/login_signup_section.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

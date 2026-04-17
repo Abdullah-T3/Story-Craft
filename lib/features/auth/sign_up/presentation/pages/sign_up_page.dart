@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/widgets/main_scaffold.dart';
-import 'package:story_craft/features/auth/sign_up/domain/entities/sign_up_data.dart';
+import 'package:story_craft/features/auth/domain/entities/sign_up_data.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_state.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/sign_up_appBar.dart';
@@ -42,6 +45,19 @@ class _SignUpViewState extends State<_SignUpView> {
 
   String ageCategory = '';
   bool agreed = false;
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickProfileImage() async {
+    final picked = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+      maxWidth: 1024,
+    );
+    if (picked != null) {
+      setState(() => _profileImage = File(picked.path));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +116,8 @@ class _SignUpViewState extends State<_SignUpView> {
                             setState(() => agreed = !agreed);
                           },
                           onSubmit: _onSubmit,
+                          profileImage: _profileImage,
+                          onPickImage: _pickProfileImage,
                         );
                       },
                     ),
@@ -130,6 +148,7 @@ class _SignUpViewState extends State<_SignUpView> {
           childName: _childNameController.text,
           ageCategory: ageCategory,
           photoUrl: '',
+          localPhotoPath: _profileImage?.path,
         ),
       );
     }

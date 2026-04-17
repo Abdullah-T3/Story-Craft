@@ -6,6 +6,7 @@ import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/responsive/responsive.dart';
 import 'package:story_craft/core/theme/app_theme.dart';
 import 'package:story_craft/core/theme/theme_cubit.dart';
+import 'package:story_craft/features/auth/domain/repositories/auth_repository.dart';
 
 class StoryCraftApp extends StatelessWidget {
   const StoryCraftApp({super.key});
@@ -25,13 +26,14 @@ class _StoryCraftMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<ThemeCubit>().state;
+    final isSignedIn = getIt<AuthRepository>().currentUser != null;
 
     return MaterialApp(
       onGenerateTitle: (context) => 'Story Craft',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
-      initialRoute: AppRoutes.onboardingPath,
+      initialRoute: isSignedIn ? AppRoutes.homePath : AppRoutes.onboardingPath,
       onGenerateRoute: AppRouter.onGenerateRoute,
       debugShowCheckedModeBanner: false,
     );

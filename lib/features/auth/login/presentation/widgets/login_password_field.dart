@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_craft/core/widgets/app_text_field.dart';
+import 'package:story_craft/features/auth/shared/validators/auth_validators.dart';
 
 class LoginPasswordField extends StatelessWidget {
   const LoginPasswordField({required this.controller, super.key});
@@ -17,15 +18,7 @@ class LoginPasswordField extends StatelessWidget {
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.right,
       textInputAction: TextInputAction.done,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'يرجى إدخال كلمة المرور';
-        }
-        if (value.length < 6) {
-          return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-        }
-        return null;
-      },
+      validator: AuthValidators.password,
     );
   }
 }

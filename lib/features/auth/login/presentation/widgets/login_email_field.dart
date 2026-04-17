@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_craft/core/widgets/app_text_field.dart';
+import 'package:story_craft/features/auth/shared/validators/auth_validators.dart';
 
 class LoginEmailField extends StatelessWidget {
   const LoginEmailField({required this.controller, super.key});
@@ -17,16 +18,7 @@ class LoginEmailField extends StatelessWidget {
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.right,
       textInputAction: TextInputAction.next,
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'يرجى إدخال البريد الإلكتروني';
-        }
-        if (!RegExp(r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$')
-            .hasMatch(value.trim())) {
-          return 'البريد الإلكتروني غير صالح';
-        }
-        return null;
-      },
+      validator: AuthValidators.email,
     );
   }
 }

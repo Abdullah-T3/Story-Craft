@@ -5,6 +5,7 @@ import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/app_text_field.dart';
 import 'package:story_craft/core/widgets/buttons.dart';
+import 'package:story_craft/features/auth/shared/validators/auth_validators.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/password_strength_bar.dart';
 
@@ -56,12 +57,7 @@ class SignUpStepOne extends StatelessWidget {
               alpha: 0.2,
             ),
             textInputAction: TextInputAction.next,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'ادخل الاسم';
-              }
-              return null;
-            },
+            validator: AuthValidators.name,
           ),
           SizedBox(height: 16.h),
           AppTextField(
@@ -74,17 +70,7 @@ class SignUpStepOne extends StatelessWidget {
               alpha: 0.2,
             ),
             textInputAction: TextInputAction.next,
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'يرجى إدخال البريد الإلكتروني';
-              }
-              if (!RegExp(
-                r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
-              ).hasMatch(value.trim())) {
-                return 'البريد الإلكتروني غير صالح';
-              }
-              return null;
-            },
+            validator: AuthValidators.email,
           ),
           SizedBox(height: 16.h),
           AppTextField(
@@ -97,15 +83,7 @@ class SignUpStepOne extends StatelessWidget {
             backgroundColor: AppColors.secondaryContainer.withValues(
               alpha: 0.2,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'يرجى إدخال كلمة المرور';
-              }
-              if (value.length < 6) {
-                return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-              }
-              return null;
-            },
+            validator: AuthValidators.password,
           ),
           SizedBox(height: 12.h),
           ValueListenableBuilder(

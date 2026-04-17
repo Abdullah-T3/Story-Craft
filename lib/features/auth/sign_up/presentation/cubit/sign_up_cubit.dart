@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:story_craft/features/auth/sign_up/domain/entities/sign_up_data.dart';
-import 'package:story_craft/features/auth/sign_up/domain/usecases/sign_up_usecase.dart';
+import 'package:story_craft/features/auth/domain/entities/sign_up_data.dart';
+import 'package:story_craft/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {

@@ -68,5 +68,11 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>نحتاج إلى الوصول إلى صورك لاختيار صورة الملف الشخصي</string>
+		<key>NSCameraUsageDescription</key>
+		<string>نحتاج إلى الكاميرا لالتقاط صورة للملف الشخصي</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>نحتاج إلى الميكروفون لتسجيل الفيديو</string>
 	</dict>
 </plist>

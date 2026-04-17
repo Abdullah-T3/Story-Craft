@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:story_craft/features/auth/presentation/cubit/auth_state.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
+import 'package:story_craft/features/auth/login/presentation/cubit/auth_state.dart';
 
 class LoginGoogleButton extends StatelessWidget {
   const LoginGoogleButton({required this.onPressed, super.key});

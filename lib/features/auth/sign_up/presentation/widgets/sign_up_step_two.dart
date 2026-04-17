@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/app_text_field.dart';
 import 'package:story_craft/core/widgets/buttons.dart';
+import 'package:story_craft/features/auth/shared/validators/auth_validators.dart';
+import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_state.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/age_chip.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/widgets/terms_agreement_widget.dart';
 
@@ -16,6 +22,8 @@ class SignUpStepTwo extends StatelessWidget {
     required this.onAgreementToggled,
     required this.selectedAge,
     required this.onSubmit,
+    required this.profileImage,
+    required this.onPickImage,
   });
 
   final TextEditingController childNameController;
@@ -24,6 +32,8 @@ class SignUpStepTwo extends StatelessWidget {
   final ValueChanged<String> onAgeCategorySelected;
   final VoidCallback onAgreementToggled;
   final VoidCallback onSubmit;
+  final File? profileImage;
+  final VoidCallback onPickImage;
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +45,50 @@ class SignUpStepTwo extends StatelessWidget {
           Center(
             child: Column(
               children: [
-                Container(
-                  width: 84.w,
-                  height: 84.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.primaryContainer,
-                  ),
-                  child: Icon(
-                    Icons.person_outline,
-                    size: 40.w,
-                    color: AppColors.primaryDark,
+                GestureDetector(
+                  onTap: onPickImage,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 84.w,
+                        height: 84.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.primaryContainer,
+                          image: profileImage != null
+                              ? DecorationImage(
+                                  image: FileImage(profileImage!),
+                                  fit: BoxFit.cover,
+                                )
+                              : null,
+                        ),
+                        child: profileImage == null
+                            ? Icon(
+                                Icons.person_outline,
+                                size: 40.w,
+                                color: AppColors.primaryDark,
+                              )
+                            : null,
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          width: 28.w,
+                          height: 28.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.primaryDark,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            size: 16.w,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -81,12 +124,7 @@ class SignUpStepTwo extends StatelessWidget {
               alpha: 0.2,
             ),
             textInputAction: TextInputAction.next,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'ادخل اسم الطفل';
-              }
-              return null;
-            },
+            validator: AuthValidators.childName,
           ),
 
           SizedBox(height: 24.h),
@@ -128,12 +166,19 @@ class SignUpStepTwo extends StatelessWidget {
           TermsCheckboxWidget(agreed: agreed, onToggle: onAgreementToggled,),
           SizedBox(height: 90.h),
 
-          Buttons(
-            label: 'إنشاء الحساب',
-            onPressed: onSubmit,
-            style: AppButtonStyle.filled,
-            suffixIcon: const Icon(Icons.arrow_forward, color: Colors.white),
-            backgroundColor: AppColors.primaryDark,
+          BlocBuilder<SignUpCubit, SignUpState>(
+            buildWhen: (prev, curr) =>
+                prev is SignUpLoading || curr is SignUpLoading,
+            builder: (context, state) {
+              return Buttons(
+                label: 'إنشاء الحساب',
+                onPressed: onSubmit,
+                isLoading: state is SignUpLoading,
+                style: AppButtonStyle.filled,
+                suffixIcon: const Icon(Icons.arrow_forward, color: Colors.white),
+                backgroundColor: AppColors.primaryDark,
+              );
+            },
           ),
           SizedBox(height: 22.h),
           Row(

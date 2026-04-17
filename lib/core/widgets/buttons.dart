@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
+import 'package:story_craft/core/widgets/app_inline_loader.dart';
 
 enum AppButtonStyle { filled, outlined, transparent }
 
@@ -64,14 +65,7 @@ class Buttons extends StatelessWidget {
     final spacing = iconSpacing ?? 8.w;
 
     final child = isLoading
-        ? SizedBox(
-            width: 18.w,
-            height: 18.w,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation(fg),
-            ),
-          )
+        ? AppInlineLoader(size: 18, color: fg, strokeWidth: 2)
         : Row(
             mainAxisSize: MainAxisSize.min,
             children: [
