@@ -46,6 +46,6 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/splash_ios_android_11.png"
+  image_path: "assets/images/Mascot.png"
   adaptive_icon_background: "#121212"
   adaptive_icon_foreground: "assets/images/play-store-icon-launcher.png"
