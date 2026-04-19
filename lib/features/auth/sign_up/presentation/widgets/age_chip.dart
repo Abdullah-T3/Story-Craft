@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class AgeChip extends StatelessWidget {
-  const AgeChip({
+  const AgeChip({super.key, 
     required this.label,
     required this.selected,
     required this.onTap,
