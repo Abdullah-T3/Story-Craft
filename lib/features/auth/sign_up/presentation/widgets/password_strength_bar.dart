@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class PasswordStrengthBar extends StatelessWidget {
-  const PasswordStrengthBar({required this.password});
+  const PasswordStrengthBar({super.key, required this.password});
 
   final String password;
 

@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class AgeChip extends StatelessWidget {
-  const AgeChip({super.key, 
+  const AgeChip({
+    super.key,
     required this.label,
     required this.selected,
     required this.onTap,
@@ -21,9 +22,9 @@ class AgeChip extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 12.h),
           decoration: BoxDecoration(
-            color: selected ? AppColors.primaryDark : AppColors.secondaryContainer.withValues(
-              alpha: 0.2,
-            ),
+            color: selected
+                ? AppColors.primaryDark
+                : AppColors.secondaryContainer.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(25.r),
             border: Border.all(
               color: selected ? AppColors.primaryDark : AppColors.borderLighter,
