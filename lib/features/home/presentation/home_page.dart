@@ -4,7 +4,6 @@ import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/widgets/app_inline_loader.dart';
-import 'package:story_craft/core/widgets/main_scaffold.dart';
 import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
 import 'package:story_craft/features/auth/login/presentation/cubit/auth_state.dart';
 
@@ -43,29 +42,27 @@ class _HomeView extends StatelessWidget {
           );
         }
       },
-      child: MainScaffold(
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('الرئيسية'),
-            actions: [
-              BlocBuilder<AuthCubit, AuthState>(
-                builder: (context, state) {
-                  final loading = state is AuthLoading;
-                  return IconButton(
-                    icon: loading
-                        ? const AppInlineLoader(size: 20, color: Colors.black54, strokeWidth: 2)
-                        : const Icon(Icons.logout),
-                    tooltip: 'تسجيل الخروج',
-                    onPressed: loading
-                        ? null
-                        : () => _confirmLogout(context),
-                  );
-                },
-              ),
-            ],
-          ),
-          body: const Center(child: Text('Welcom to home screen')),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('الرئيسية'),
+          actions: [
+            BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                final loading = state is AuthLoading;
+                return IconButton(
+                  icon: loading
+                      ? const AppInlineLoader(size: 20, color: Colors.black54, strokeWidth: 2)
+                      : const Icon(Icons.logout),
+                  tooltip: 'تسجيل الخروج',
+                  onPressed: loading
+                      ? null
+                      : () => _confirmLogout(context),
+                );
+              },
+            ),
+          ],
         ),
+        body: const Center(child: Text('Welcom to home screen')),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_craft/app/router/routs.dart';
+import 'package:story_craft/core/widgets/main_layout.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/pages/sign_up_page.dart';
 import 'package:story_craft/features/home/presentation/home_page.dart';
 import 'package:story_craft/features/onboarding/presentation/page/onboarding.dart';
@@ -27,6 +28,11 @@ abstract final class AppRouter {
       case AppRoutes.homePath:
         return MaterialPageRoute<void>(
           builder: (_) => const HomePage(),
+          settings: settings,
+        );
+      case AppRoutes.mainLayoutPath:
+        return MaterialPageRoute<void>(
+          builder: (_) => const MainLayout(),
           settings: settings,
         );
       default:
