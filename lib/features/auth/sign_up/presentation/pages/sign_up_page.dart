@@ -157,7 +157,7 @@ class _SignUpViewState extends State<_SignUpView> {
   void _handleSignUpState(BuildContext context, SignUpState state) {
     if (state is SignUpSuccess) {
       context.pushNamedAndRemoveUntil(
-        AppRoutes.homePath,
+        AppRoutes.mainLayoutPath,
         predicate: (_) => false,
       );
     } else if (state is SignUpError) {
