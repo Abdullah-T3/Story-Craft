@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class StatsRow extends StatelessWidget {
@@ -22,7 +23,7 @@ class StatsRow extends StatelessWidget {
         Expanded(
           child: _StatTile(
             value: badges,
-            label: 'profile.account.stats.badges'.tr(),
+            label: LocaleKeys.profile_account_stats_badges.tr(),
             background: AppColors.tertiaryContainer,
             valueColor: AppColors.tertiary,
           ),
@@ -31,7 +32,7 @@ class StatsRow extends StatelessWidget {
         Expanded(
           child: _StatTile(
             value: written,
-            label: 'profile.account.stats.storiesWritten'.tr(),
+            label: LocaleKeys.profile_account_stats_storiesWritten.tr(),
             background: AppColors.primaryContainer,
             valueColor: AppColors.primaryDark,
           ),
@@ -40,7 +41,7 @@ class StatsRow extends StatelessWidget {
         Expanded(
           child: _StatTile(
             value: printed,
-            label: 'profile.account.stats.storiesPrinted'.tr(),
+            label: LocaleKeys.profile_account_stats_storiesPrinted.tr(),
             background: AppColors.secondaryContainer,
             valueColor: AppColors.secondary,
           ),

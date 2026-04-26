@@ -40,7 +40,6 @@ class _StoryCraftMaterialApp extends StatelessWidget {
       initialRoute: isSignedIn
           ? AppRoutes.mainLayoutPath
           : AppRoutes.onboardingPath,
-      initialRoute: isSignedIn ? AppRoutes.mainLayoutPath : AppRoutes.onboardingPath,
       onGenerateRoute: AppRouter.onGenerateRoute,
       debugShowCheckedModeBanner: false,
     );

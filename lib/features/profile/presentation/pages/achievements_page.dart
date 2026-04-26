@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/di/service_locator.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
 import 'package:story_craft/core/widgets/app_loading.dart';
@@ -70,7 +71,7 @@ class _AchievementsBody extends StatelessWidget {
       child: Column(
         children: [
           ScreenHeader(
-            title: 'profile.achievements.title'.tr(),
+            title: LocaleKeys.profile_achievements_title.tr(),
             trailing: CircleIconButton(
               icon: Icons.ios_share_rounded,
               onTap: () {},

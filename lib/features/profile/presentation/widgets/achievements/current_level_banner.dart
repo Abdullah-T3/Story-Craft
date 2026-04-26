@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class CurrentLevelBanner extends StatelessWidget {
@@ -25,8 +26,7 @@ class CurrentLevelBanner extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'profile.achievements.${levelKey.isEmpty ? 'levelSkilledReader' : levelKey}'
-                .tr(),
+            _resolveLevelKey(levelKey).tr(),
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
@@ -34,7 +34,7 @@ class CurrentLevelBanner extends StatelessWidget {
             ),
           ),
           Text(
-            'profile.achievements.currentLevel'.tr(),
+            LocaleKeys.profile_achievements_currentLevel.tr(),
             style: TextStyle(
               fontSize: 13.sp,
               color: Colors.white.withOpacity(0.9),
@@ -43,5 +43,13 @@ class CurrentLevelBanner extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _resolveLevelKey(String key) {
+    return switch (key) {
+      'levelSkilledReader' =>
+        LocaleKeys.profile_achievements_levelSkilledReader,
+      _ => LocaleKeys.profile_achievements_levelSkilledReader,
+    };
   }
 }

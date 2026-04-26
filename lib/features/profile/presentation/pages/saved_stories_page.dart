@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/di/service_locator.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 import 'package:story_craft/features/profile/presentation/cubit/saved_stories/saved_stories_cubit.dart';
@@ -40,7 +41,7 @@ class _SavedStoriesView extends StatelessWidget {
               return Column(
                 children: [
                   ScreenHeader(
-                    title: 'profile.saved.title'.tr(),
+                    title: LocaleKeys.profile_saved_title.tr(),
                     trailing: CircleIconButton(
                       icon: Icons.search_rounded,
                       onTap: () {},
@@ -76,8 +77,8 @@ class _SavedList extends StatelessWidget {
     }
     if (state.stories.isEmpty) {
       final key = state.activeTab == SavedStoryListKind.favorites
-          ? 'profile.saved.emptyFavorites'
-          : 'profile.saved.emptyHistory';
+          ? LocaleKeys.profile_saved_emptyFavorites
+          : LocaleKeys.profile_saved_emptyHistory;
       return Center(
         child: Padding(
           padding: EdgeInsets.all(24.r),

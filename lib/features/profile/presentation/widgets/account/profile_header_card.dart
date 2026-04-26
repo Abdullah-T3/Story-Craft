@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/reader_profile.dart';
 import 'package:story_craft/features/profile/presentation/widgets/account/stats_row.dart';
@@ -40,7 +41,7 @@ class ProfileHeaderCard extends StatelessWidget {
           ),
           SizedBox(height: 6.h),
           Text(
-            'profile.account.joinedMonthsAgo'.tr(
+            LocaleKeys.profile_account_joinedMonthsAgo.tr(
               namedArgs: {'months': months.toString()},
             ),
             style: TextStyle(

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 
@@ -33,12 +34,12 @@ class SavedTabsHeader extends StatelessWidget {
       child: Row(
         children: [
           _TabSegment(
-            label: 'profile.saved.tabHistory'.tr(),
+            label: LocaleKeys.profile_saved_tabHistory.tr(),
             isActive: active == SavedStoryListKind.history,
             onTap: () => onChanged(SavedStoryListKind.history),
           ),
           _TabSegment(
-            label: 'profile.saved.tabFavorites'.tr(),
+            label: LocaleKeys.profile_saved_tabFavorites.tr(),
             isActive: active == SavedStoryListKind.favorites,
             onTap: () => onChanged(SavedStoryListKind.favorites),
           ),

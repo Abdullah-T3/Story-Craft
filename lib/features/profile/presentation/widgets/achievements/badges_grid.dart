@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/badge.dart';
 import 'package:story_craft/features/profile/presentation/widgets/achievements/badge_card.dart';
@@ -29,7 +30,7 @@ class BadgesGrid extends StatelessWidget {
               GestureDetector(
                 onTap: () {},
                 child: Text(
-                  'common.showAll'.tr(),
+                  LocaleKeys.common_showAll.tr(),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.primary,
@@ -38,7 +39,7 @@ class BadgesGrid extends StatelessWidget {
                 ),
               ),
               Text(
-                'profile.achievements.badgesProgress'.tr(
+                LocaleKeys.profile_achievements_badgesProgress.tr(
                   namedArgs: {
                     'earned': unlocked.toString(),
                     'total': total.toString(),

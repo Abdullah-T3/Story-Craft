@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 
@@ -77,7 +78,7 @@ class SavedStoryCard extends StatelessWidget {
                       ),
                       SizedBox(width: 14.w),
                       Text(
-                        'profile.saved.durationMinutes'.tr(
+                        LocaleKeys.profile_saved_durationMinutes.tr(
                           namedArgs: {
                             'minutes': story.durationMinutes.toString(),
                           },

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/di/service_locator.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
 import 'package:story_craft/core/widgets/app_loading.dart';
@@ -76,17 +77,21 @@ class _ParentalBody extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 32.h),
       child: Column(
         children: [
-          ScreenHeader(title: 'profile.parental.title'.tr()),
+          ScreenHeader(title: LocaleKeys.profile_parental_title.tr()),
           SizedBox(height: 8.h),
           const ProtectionBanner(),
-          ParentalSectionHeader(title: 'profile.parental.allowedContent'.tr()),
+          ParentalSectionHeader(
+            title: LocaleKeys.profile_parental_allowedContent.tr(),
+          ),
           AgeRangeTile(from: settings.ageRangeFrom, to: settings.ageRangeTo),
           ContentFilterTile(
             enabled: settings.contentFilterEnabled,
             onChanged: (v) =>
                 context.read<ParentalCubit>().setContentFilter(enabled: v),
           ),
-          ParentalSectionHeader(title: 'profile.parental.usageTime'.tr()),
+          ParentalSectionHeader(
+            title: LocaleKeys.profile_parental_usageTime.tr(),
+          ),
           UsageTimeCard(settings: settings),
           WeeklyScheduleTile(subtitle: settings.weeklyScheduleSubtitle),
         ],

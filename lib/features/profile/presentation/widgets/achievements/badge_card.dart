@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/badge.dart';
 
@@ -11,7 +12,7 @@ class BadgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final keyName = _keyForKind(badge.kind);
+    final keys = _keysFor(badge.kind);
     final namedArgs = _namedArgsFor(badge);
 
     return Stack(
@@ -50,7 +51,7 @@ class BadgeCard extends StatelessWidget {
               ),
               SizedBox(height: 8.h),
               Text(
-                'profile.achievements.badges.$keyName.name'.tr(),
+                keys.nameKey.tr(),
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
@@ -61,8 +62,7 @@ class BadgeCard extends StatelessWidget {
               ),
               SizedBox(height: 2.h),
               Text(
-                'profile.achievements.badges.$keyName.subtitle'
-                    .tr(namedArgs: namedArgs),
+                keys.subtitleKey.tr(namedArgs: namedArgs),
                 style: TextStyle(
                   fontSize: 10.sp,
                   color: AppColors.textSecondary,
@@ -85,14 +85,37 @@ class BadgeCard extends StatelessWidget {
     );
   }
 
-  String _keyForKind(BadgeKind kind) => switch (kind) {
-    BadgeKind.consistent => 'consistent',
-    BadgeKind.creativeWriter => 'creativeWriter',
-    BadgeKind.voraciousReader => 'voraciousReader',
-    BadgeKind.littleWorld => 'littleWorld',
-    BadgeKind.monthHero => 'monthHero',
-    BadgeKind.storyStar => 'storyStar',
-  };
+  ({String nameKey, String subtitleKey}) _keysFor(BadgeKind kind) {
+    return switch (kind) {
+      BadgeKind.consistent => (
+        nameKey: LocaleKeys.profile_achievements_badges_consistent_name,
+        subtitleKey: LocaleKeys.profile_achievements_badges_consistent_subtitle,
+      ),
+      BadgeKind.creativeWriter => (
+        nameKey: LocaleKeys.profile_achievements_badges_creativeWriter_name,
+        subtitleKey:
+            LocaleKeys.profile_achievements_badges_creativeWriter_subtitle,
+      ),
+      BadgeKind.voraciousReader => (
+        nameKey: LocaleKeys.profile_achievements_badges_voraciousReader_name,
+        subtitleKey:
+            LocaleKeys.profile_achievements_badges_voraciousReader_subtitle,
+      ),
+      BadgeKind.littleWorld => (
+        nameKey: LocaleKeys.profile_achievements_badges_littleWorld_name,
+        subtitleKey:
+            LocaleKeys.profile_achievements_badges_littleWorld_subtitle,
+      ),
+      BadgeKind.monthHero => (
+        nameKey: LocaleKeys.profile_achievements_badges_monthHero_name,
+        subtitleKey: LocaleKeys.profile_achievements_badges_monthHero_subtitle,
+      ),
+      BadgeKind.storyStar => (
+        nameKey: LocaleKeys.profile_achievements_badges_storyStar_name,
+        subtitleKey: LocaleKeys.profile_achievements_badges_storyStar_subtitle,
+      ),
+    };
+  }
 
   Map<String, String> _namedArgsFor(AchievementBadge b) {
     final v = b.metricValue.toString();

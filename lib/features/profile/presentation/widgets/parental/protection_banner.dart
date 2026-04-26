@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class ProtectionBanner extends StatelessWidget {
@@ -37,7 +38,7 @@ class ProtectionBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'profile.parental.protectedTitle'.tr(),
+                  LocaleKeys.profile_parental_protectedTitle.tr(),
                   style: TextStyle(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
@@ -46,7 +47,7 @@ class ProtectionBanner extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'profile.parental.protectedSubtitle'.tr(),
+                  LocaleKeys.profile_parental_protectedSubtitle.tr(),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontSize: 12.sp,

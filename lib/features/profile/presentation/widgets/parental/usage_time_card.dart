@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/parental_settings.dart';
 import 'package:story_craft/features/profile/presentation/widgets/parental/parental_card.dart';
@@ -21,7 +22,7 @@ class UsageTimeCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'profile.parental.todayQuota'.tr(
+                LocaleKeys.profile_parental_todayQuota.tr(
                   namedArgs: {
                     'used': settings.usedTodayMinutes.toString(),
                     'total': settings.dailyQuotaMinutes.toString(),
@@ -34,7 +35,7 @@ class UsageTimeCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'profile.parental.todayTime'.tr(),
+                LocaleKeys.profile_parental_todayTime.tr(),
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -58,7 +59,7 @@ class UsageTimeCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'profile.parental.todayRemaining'.tr(
+                LocaleKeys.profile_parental_todayRemaining.tr(
                   namedArgs: {
                     'minutes': settings.remainingMinutes.toString(),
                   },
@@ -69,7 +70,7 @@ class UsageTimeCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'profile.parental.todayUsed'.tr(
+                LocaleKeys.profile_parental_todayUsed.tr(
                   namedArgs: {
                     'minutes': settings.usedTodayMinutes.toString(),
                   },

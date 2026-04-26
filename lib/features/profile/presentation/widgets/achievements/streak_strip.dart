@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 
 class StreakStrip extends StatelessWidget {
@@ -51,7 +52,7 @@ class StreakStrip extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        'profile.achievements.streakTitle'.tr(
+                        LocaleKeys.profile_achievements_streakTitle.tr(
                           namedArgs: {'days': days.toString()},
                         ),
                         style: TextStyle(
@@ -62,7 +63,7 @@ class StreakStrip extends StatelessWidget {
                       ),
                       SizedBox(height: 2.h),
                       Text(
-                        'profile.achievements.streakSubtitle'.tr(),
+                        LocaleKeys.profile_achievements_streakSubtitle.tr(),
                         style: TextStyle(
                           fontSize: 11.sp,
                           color: AppColors.textSecondary,

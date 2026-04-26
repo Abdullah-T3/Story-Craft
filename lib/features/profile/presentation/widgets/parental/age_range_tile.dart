@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/presentation/widgets/parental/parental_card.dart';
 
@@ -32,7 +33,7 @@ class AgeRangeTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'profile.parental.ageRange'.tr(),
+                  LocaleKeys.profile_parental_ageRange.tr(),
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
@@ -41,7 +42,7 @@ class AgeRangeTile extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'profile.parental.ageRangeValue'.tr(
+                  LocaleKeys.profile_parental_ageRangeValue.tr(
                     namedArgs: {'from': from.toString(), 'to': to.toString()},
                   ),
                   style: TextStyle(
