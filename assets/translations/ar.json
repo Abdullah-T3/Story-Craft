@@ -10,5 +10,97 @@
   "retry": "إعادة المحاولة",
   "routeErrorTitle": "الصفحة غير موجودة",
   "routeErrorMessage": "لا يوجد مسار لهذا العنوان:",
-  "samplePosts": "عينات من واجهة API"
+  "samplePosts": "عينات من واجهة API",
+  "common": {
+    "back": "رجوع",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "showAll": "عرض الكل",
+    "settings": "الإعدادات",
+    "minuteShort": "د"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "create": "إنشاء",
+    "account": "حسابي"
+  },
+  "profile": {
+    "account": {
+      "title": "حسابي",
+      "joinedMonthsAgo": "قارئ صغير · انضم منذ {months} أشهر",
+      "stats": {
+        "badges": "شارة",
+        "storiesWritten": "قصة كُتبت",
+        "storiesPrinted": "قصة طُبعت"
+      },
+      "settings": {
+        "section": "الإعدادات",
+        "personalInfo": "المعلومات الشخصية",
+        "personalInfoSubtitle": "تعديل الاسم والعمر والصورة",
+        "parental": "الرقابة الأبوية",
+        "parentalSubtitle": "حدد وقت القراءة والمحتوى المناسب",
+        "notifications": "الإشعارات",
+        "notificationsSubtitle": "قصص جديدة، تذكيرات، شارات"
+      }
+    },
+    "achievements": {
+      "title": "إنجازاتي",
+      "currentLevel": "المستوى الحالي",
+      "levelSkilledReader": "قارئ ماهر",
+      "badgesProgress": "الشارات ({earned} من {total})",
+      "streakTitle": "سلسلة {days} أيام متتالية!",
+      "streakSubtitle": "اقرأ اليوم لتستمر السلسلة",
+      "badges": {
+        "consistent": {
+          "name": "مواظب",
+          "subtitle": "{days} أيام"
+        },
+        "creativeWriter": {
+          "name": "كاتب مبدع",
+          "subtitle": "{count} قصص"
+        },
+        "voraciousReader": {
+          "name": "قارئ نهم",
+          "subtitle": "{count} قصص"
+        },
+        "littleWorld": {
+          "name": "عالم صغير",
+          "subtitle": "{count} قصة"
+        },
+        "monthHero": {
+          "name": "بطل الشهر",
+          "subtitle": "المركز {rank}"
+        },
+        "storyStar": {
+          "name": "نجم القصص",
+          "subtitle": "{count} قصة"
+        }
+      }
+    },
+    "saved": {
+      "title": "قصصي المحفوظة",
+      "tabFavorites": "المفضلة",
+      "tabHistory": "سجل القراءة",
+      "durationMinutes": "{minutes} د",
+      "emptyFavorites": "لم تضف أي قصة للمفضلة بعد",
+      "emptyHistory": "لا يوجد سجل قراءة حتى الآن"
+    },
+    "parental": {
+      "title": "الرقابة الأبوية",
+      "protectedTitle": "حسابك الأبوي محمي",
+      "protectedSubtitle": "تحكم كامل بمحتوى ووقت قراءة طفلك",
+      "allowedContent": "المحتوى المسموح",
+      "ageRange": "الفئة العمرية",
+      "ageRangeValue": "{from}-{to} سنوات",
+      "contentFilter": "تصفية المحتوى",
+      "contentFilterSubtitle": "إخفاء المخيف والعنيف",
+      "usageTime": "وقت الاستخدام",
+      "todayTime": "وقت اليوم",
+      "todayUsed": "مستخدم: {minutes}د",
+      "todayRemaining": "متبقي: {minutes}د",
+      "todayQuota": "{used} / {total} دقيقة",
+      "weeklySchedule": "جدول القراءة الأسبوعي",
+      "weeklyScheduleSubtitle": "ساعة كل يوم بعد المدرسة"
+    }
+  }
 }

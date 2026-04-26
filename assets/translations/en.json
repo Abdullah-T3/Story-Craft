@@ -10,5 +10,97 @@
   "retry": "Retry",
   "routeErrorTitle": "Page not found",
   "routeErrorMessage": "No route matches this address:",
-  "samplePosts": "Sample API posts"
+  "samplePosts": "Sample API posts",
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "showAll": "Show all",
+    "settings": "Settings",
+    "minuteShort": "m"
+  },
+  "nav": {
+    "home": "Home",
+    "create": "Create",
+    "account": "Account"
+  },
+  "profile": {
+    "account": {
+      "title": "My Account",
+      "joinedMonthsAgo": "Young reader · joined {months} months ago",
+      "stats": {
+        "badges": "Badges",
+        "storiesWritten": "Stories written",
+        "storiesPrinted": "Stories printed"
+      },
+      "settings": {
+        "section": "Settings",
+        "personalInfo": "Personal info",
+        "personalInfoSubtitle": "Edit name, age and avatar",
+        "parental": "Parental control",
+        "parentalSubtitle": "Set reading time and allowed content",
+        "notifications": "Notifications",
+        "notificationsSubtitle": "New stories, reminders, badges"
+      }
+    },
+    "achievements": {
+      "title": "My achievements",
+      "currentLevel": "Current level",
+      "levelSkilledReader": "Skilled reader",
+      "badgesProgress": "Badges ({earned} of {total})",
+      "streakTitle": "{days}-day streak!",
+      "streakSubtitle": "Read today to keep your streak",
+      "badges": {
+        "consistent": {
+          "name": "Consistent",
+          "subtitle": "{days} days"
+        },
+        "creativeWriter": {
+          "name": "Creative writer",
+          "subtitle": "{count} stories"
+        },
+        "voraciousReader": {
+          "name": "Voracious reader",
+          "subtitle": "{count} stories"
+        },
+        "littleWorld": {
+          "name": "Little world",
+          "subtitle": "{count} stories"
+        },
+        "monthHero": {
+          "name": "Month hero",
+          "subtitle": "Rank {rank}"
+        },
+        "storyStar": {
+          "name": "Story star",
+          "subtitle": "{count} stories"
+        }
+      }
+    },
+    "saved": {
+      "title": "Saved stories",
+      "tabFavorites": "Favorites",
+      "tabHistory": "Reading log",
+      "durationMinutes": "{minutes} m",
+      "emptyFavorites": "No favorite stories yet",
+      "emptyHistory": "No reading history yet"
+    },
+    "parental": {
+      "title": "Parental control",
+      "protectedTitle": "Your parental account is protected",
+      "protectedSubtitle": "Full control of your child's reading content and time",
+      "allowedContent": "Allowed content",
+      "ageRange": "Age range",
+      "ageRangeValue": "{from}-{to} years",
+      "contentFilter": "Content filter",
+      "contentFilterSubtitle": "Hide scary and violent content",
+      "usageTime": "Usage time",
+      "todayTime": "Today",
+      "todayUsed": "Used: {minutes}m",
+      "todayRemaining": "Remaining: {minutes}m",
+      "todayQuota": "{used} / {total} minutes",
+      "weeklySchedule": "Weekly schedule",
+      "weeklyScheduleSubtitle": "1 hour every day after school"
+    }
+  }
 }

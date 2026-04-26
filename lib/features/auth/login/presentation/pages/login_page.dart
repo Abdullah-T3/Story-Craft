@@ -115,7 +115,7 @@ class _LoginViewState extends State<_LoginView> {
   void _handleAuthState(BuildContext context, AuthState state) {
     if (state is AuthSuccess) {
       context.pushNamedAndRemoveUntil(
-        AppRoutes.homePath,
+        AppRoutes.mainLayoutPath,
         predicate: (_) => false,
       );
     } else if (state is AuthError) {
