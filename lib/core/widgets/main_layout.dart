@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/main_scaffold.dart';
-import 'package:story_craft/features/home/presentation/home_page.dart';
 import 'package:story_craft/features/profile/presentation/pages/account_page.dart';
+import 'package:story_craft/features/profile/presentation/pages/achievements_page.dart';
+import 'package:story_craft/features/profile/presentation/pages/saved_stories_page.dart';
+import 'package:story_craft/features/stories/presentation/pages/library_page.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key, this.initialIndex = 0});
@@ -20,8 +22,9 @@ class _MainLayoutState extends State<MainLayout> {
   late int _currentIndex = widget.initialIndex;
 
   static const List<Widget> _screens = [
-    HomePage(),
-    Center(child: Text('Create')),
+    LibraryPage(),
+    SavedStoriesPage(),
+    AchievementsPage(),
     AccountPage(),
   ];
 
@@ -67,6 +70,7 @@ class _BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Visual order in RTL bar (right → left): Library, Favorites, Achievements, Account
     return Container(
       margin: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
@@ -87,20 +91,27 @@ class _BottomNavBar extends StatelessWidget {
             _NavItem(
               icon: Icons.person_outline,
               label: LocaleKeys.nav_account.tr(),
+              index: 3,
+              currentIndex: currentIndex,
+              onTap: onTap,
+            ),
+            _NavItem(
+              icon: Icons.emoji_events_outlined,
+              label: LocaleKeys.nav_achievements.tr(),
               index: 2,
               currentIndex: currentIndex,
               onTap: onTap,
             ),
             _NavItem(
-              icon: Icons.auto_awesome_outlined,
-              label: LocaleKeys.nav_create.tr(),
+              icon: Icons.bookmark_border_rounded,
+              label: LocaleKeys.nav_favorites.tr(),
               index: 1,
               currentIndex: currentIndex,
               onTap: onTap,
             ),
             _NavItem(
-              icon: Icons.home_outlined,
-              label: LocaleKeys.nav_home.tr(),
+              icon: Icons.menu_book_rounded,
+              label: LocaleKeys.nav_library.tr(),
               index: 0,
               currentIndex: currentIndex,
               onTap: onTap,
@@ -191,7 +202,7 @@ class _NavItem extends StatelessWidget {
                   duration: duration,
                   curve: Curves.easeOut,
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 12.sp,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
                     color: isSelected
                         ? AppColors.textPrimary

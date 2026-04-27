@@ -18,4 +18,11 @@ abstract interface class ProfileRepository {
   Future<AppResult<ParentalSettings>> updateParentalSettings(
     ParentalSettings settings,
   );
+
+  Future<AppResult<ReaderProfile>> updateProfile({
+    String? parentName,
+    String? childName,
+    String? ageCategory,
+    String? photoUrl,
+  });
 }

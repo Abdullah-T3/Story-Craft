@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:story_craft/core/error/failures.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
@@ -6,21 +5,28 @@ import 'package:story_craft/features/auth/domain/repositories/auth_repository.da
 import 'package:story_craft/features/profile/data/datasources/firestore_profile_datasource.dart';
 import 'package:story_craft/features/profile/data/models/profile_mappers.dart';
 import 'package:story_craft/features/profile/domain/entities/achievements_summary.dart';
-import 'package:story_craft/features/profile/domain/entities/badge.dart';
 import 'package:story_craft/features/profile/domain/entities/parental_settings.dart';
 import 'package:story_craft/features/profile/domain/entities/reader_profile.dart';
+import 'package:story_craft/features/profile/domain/entities/reader_stats.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 import 'package:story_craft/features/profile/domain/repositories/profile_repository.dart';
+import 'package:story_craft/features/profile/domain/services/badge_rules.dart';
+import 'package:story_craft/features/stories/domain/entities/reading_progress.dart';
+import 'package:story_craft/features/stories/domain/entities/story.dart';
+import 'package:story_craft/features/stories/domain/repositories/stories_repository.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   const ProfileRepositoryImpl({
     required FirestoreProfileDatasource firestore,
     required AuthRepository auth,
+    required StoriesRepository stories,
   }) : _firestore = firestore,
-       _auth = auth;
+       _auth = auth,
+       _stories = stories;
 
   final FirestoreProfileDatasource _firestore;
   final AuthRepository _auth;
+  final StoriesRepository _stories;
 
   String? get _uid => _auth.currentUser?.uid;
 
@@ -43,10 +49,58 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<AppResult<AchievementsSummary>> getAchievements() async {
-    final profile = await getReaderProfile();
-    return profile.fold(
-      (f) => Left(f),
-      (p) => Right(_defaultAchievements(p)),
+    final profileResult = await getReaderProfile();
+    return profileResult.fold<Future<AppResult<AchievementsSummary>>>(
+      (f) async => Left(f),
+      (p) async {
+        final history =
+            (await _stories.getHistory()).getRight().toNullable() ??
+            const <ReadingProgress>[];
+        final stats = _computeStats(history, p);
+        return Right(
+          AchievementsSummary(
+            levelKey: p.levelKey,
+            badges: BadgeRules.evaluate(stats),
+            streakDays: stats.streakDays,
+            streakWeek: stats.streakWeek,
+          ),
+        );
+      },
+    );
+  }
+
+  ReaderStats _computeStats(List<ReadingProgress> history, ReaderProfile p) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    // Build a set of dates with reading activity (completed reads only).
+    final readDays = <DateTime>{};
+    for (final h in history.where((h) => h.completed)) {
+      final d = DateTime(
+        h.lastOpenedAt.year,
+        h.lastOpenedAt.month,
+        h.lastOpenedAt.day,
+      );
+      readDays.add(d);
+    }
+    // Walk back from today counting consecutive reading days.
+    var streak = 0;
+    var cursor = today;
+    while (readDays.contains(cursor)) {
+      streak++;
+      cursor = cursor.subtract(const Duration(days: 1));
+    }
+    // Build last-7-day strip (oldest → newest).
+    final week = <bool>[
+      for (var i = 6; i >= 0; i--)
+        readDays.contains(today.subtract(Duration(days: i))),
+    ];
+    return ReaderStats(
+      streakDays: streak,
+      lastReadDate: history.isEmpty ? null : history.first.lastOpenedAt,
+      storiesRead: history.where((h) => h.completed).length,
+      storiesWritten: p.storiesWritten,
+      storiesPrinted: p.storiesPrinted,
+      streakWeek: week,
     );
   }
 
@@ -59,17 +113,60 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return const Left(AuthFailure(message: 'لا يوجد مستخدم مسجل'));
     }
     try {
-      final docs = await _firestore.getSavedStories(
-        uid: uid,
-        favoritesOnly: kind == SavedStoryListKind.favorites,
-      );
-      if (docs.isEmpty) {
-        return Right(_defaultSavedStories(kind));
+      if (kind == SavedStoryListKind.favorites) {
+        final favIds = (await _stories.getFavoriteIds()).getRight().toNullable() ?? const <String>[];
+        if (favIds.isEmpty) return const Right([]);
+        final stories =
+            (await _stories.getStoriesByIds(favIds)).getRight().toNullable() ??
+            const <Story>[];
+        return Right(stories.map((s) => _toSavedFromStory(s, true)).toList());
+      } else {
+        final history =
+            (await _stories.getHistory()).getRight().toNullable() ??
+            const <ReadingProgress>[];
+        if (history.isEmpty) return const Right([]);
+        final stories =
+            (await _stories.getStoriesByIds(
+              history.map((h) => h.storyId).toList(),
+            )).getRight().toNullable() ??
+            const <Story>[];
+        final byId = {for (final s in stories) s.id: s};
+        return Right([
+          for (final h in history)
+            if (byId[h.storyId] != null) _toSavedFromHistory(byId[h.storyId]!, h),
+        ]);
       }
-      return Right(docs.map(savedStoryFromMap).toList());
     } on Exception {
       return Right(_defaultSavedStories(kind));
     }
+  }
+
+  SavedStory _toSavedFromStory(Story s, bool fav) {
+    return SavedStory(
+      id: s.id,
+      title: s.title,
+      categoryLabel: s.categoryId,
+      coverEmoji: s.coverEmoji,
+      coverColor: s.coverColor,
+      durationMinutes: s.durationMinutes,
+      progress: 0,
+      isFavorite: fav,
+      lastOpenedAt: DateTime.now(),
+    );
+  }
+
+  SavedStory _toSavedFromHistory(Story s, ReadingProgress p) {
+    return SavedStory(
+      id: s.id,
+      title: s.title,
+      categoryLabel: s.categoryId,
+      coverEmoji: s.coverEmoji,
+      coverColor: s.coverColor,
+      durationMinutes: s.durationMinutes,
+      progress: p.progress,
+      isFavorite: false,
+      lastOpenedAt: p.lastOpenedAt,
+    );
   }
 
   @override
@@ -86,6 +183,30 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Right(parentalFromMap(data));
     } on Exception {
       return Right(_defaultParental());
+    }
+  }
+
+  @override
+  Future<AppResult<ReaderProfile>> updateProfile({
+    String? parentName,
+    String? childName,
+    String? ageCategory,
+    String? photoUrl,
+  }) async {
+    final uid = _uid;
+    if (uid == null) {
+      return const Left(AuthFailure(message: 'لا يوجد مستخدم مسجل'));
+    }
+    try {
+      final data = <String, dynamic>{};
+      if (parentName != null) data['name'] = parentName;
+      if (childName != null) data['childName'] = childName;
+      if (ageCategory != null) data['ageCategory'] = ageCategory;
+      if (photoUrl != null) data['photoUrl'] = photoUrl;
+      await _firestore.updateUser(uid, data);
+      return getReaderProfile();
+    } on Exception {
+      return const Left(ServerFailure(message: 'تعذر حفظ المعلومات'));
     }
   }
 
@@ -118,58 +239,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
       badgesCount: 7,
       storiesWritten: 12,
       storiesPrinted: 24,
-    );
-  }
-
-  AchievementsSummary _defaultAchievements(ReaderProfile p) {
-    return AchievementsSummary(
-      levelKey: p.levelKey,
-      streakDays: 7,
-      streakWeek: const [true, true, true, true, true, true, true],
-      badges: const [
-        AchievementBadge(
-          kind: BadgeKind.consistent,
-          icon: Icons.local_fire_department_rounded,
-          color: AppColors.secondary,
-          unlocked: true,
-          metricValue: 7,
-        ),
-        AchievementBadge(
-          kind: BadgeKind.creativeWriter,
-          icon: Icons.edit_rounded,
-          color: AppColors.tertiary,
-          unlocked: true,
-          metricValue: 5,
-        ),
-        AchievementBadge(
-          kind: BadgeKind.voraciousReader,
-          icon: Icons.menu_book_rounded,
-          color: AppColors.primary,
-          unlocked: true,
-          metricValue: 10,
-        ),
-        AchievementBadge(
-          kind: BadgeKind.littleWorld,
-          icon: Icons.school_rounded,
-          color: AppColors.textTertiary,
-          unlocked: false,
-          metricValue: 50,
-        ),
-        AchievementBadge(
-          kind: BadgeKind.monthHero,
-          icon: Icons.emoji_events_rounded,
-          color: AppColors.textTertiary,
-          unlocked: false,
-          metricValue: 1,
-        ),
-        AchievementBadge(
-          kind: BadgeKind.storyStar,
-          icon: Icons.star_rounded,
-          color: AppColors.textTertiary,
-          unlocked: false,
-          metricValue: 25,
-        ),
-      ],
     );
   }
 

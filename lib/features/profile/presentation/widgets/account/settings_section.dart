@@ -36,7 +36,7 @@ class SettingsSection extends StatelessWidget {
             title: LocaleKeys.profile_account_settings_personalInfo.tr(),
             subtitle:
                 LocaleKeys.profile_account_settings_personalInfoSubtitle.tr(),
-            onTap: () {},
+            onTap: () => context.pushNamed(AppRoutes.personalInfoPath),
           ),
           SettingsTile(
             icon: Icons.verified_user_outlined,
@@ -53,7 +53,7 @@ class SettingsSection extends StatelessWidget {
             title: LocaleKeys.profile_account_settings_notifications.tr(),
             subtitle:
                 LocaleKeys.profile_account_settings_notificationsSubtitle.tr(),
-            onTap: () {},
+            onTap: () => context.pushNamed(AppRoutes.notificationsPath),
           ),
         ],
       ),

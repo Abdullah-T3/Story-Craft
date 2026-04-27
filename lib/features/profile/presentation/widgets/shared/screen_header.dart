@@ -19,14 +19,12 @@ class ScreenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canPop = Navigator.of(context).canPop();
     return Padding(
       padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
       child: Row(
         children: [
-          if (trailing != null)
-            trailing!
-          else
-            SizedBox(width: 40.r),
+          if (trailing != null) trailing! else SizedBox(width: 40.r),
           Expanded(
             child: Center(
               child: Text(
@@ -39,14 +37,17 @@ class ScreenHeader extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            onPressed: onBack ?? () => Navigator.maybePop(context),
-            icon: Icon(
-              Icons.chevron_left_rounded,
-              size: 28.sp,
-              color: AppColors.textPrimary,
-            ),
-          ),
+          if (canPop || onBack != null)
+            IconButton(
+              onPressed: onBack ?? () => Navigator.maybePop(context),
+              icon: Icon(
+                Icons.chevron_left_rounded,
+                size: 28.sp,
+                color: AppColors.textPrimary,
+              ),
+            )
+          else
+            SizedBox(width: 40.r),
         ],
       ),
     );

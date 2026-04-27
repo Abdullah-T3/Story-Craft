@@ -17,12 +17,77 @@
     "cancel": "Cancel",
     "showAll": "Show all",
     "settings": "Settings",
-    "minuteShort": "m"
+    "minuteShort": "m",
+    "ok": "OK",
+    "close": "Close",
+    "done": "Done"
   },
   "nav": {
     "home": "Home",
+    "library": "Library",
     "create": "Create",
+    "favorites": "Favorites",
+    "achievements": "Achievements",
     "account": "Account"
+  },
+  "library": {
+    "greeting": "Hi, {name} 👋",
+    "subtitle": "What are you reading today?",
+    "storyOfTheDay": "Story of the day",
+    "startReading": "Start reading",
+    "continueReading": "Continue reading",
+    "empty": "No stories in this category yet"
+  },
+  "categories": {
+    "all": "All",
+    "adventures": "Adventures",
+    "fantasy": "Fantasy",
+    "animals": "Animals",
+    "educational": "Educational",
+    "newReleases": "New"
+  },
+  "story": {
+    "ageRange": "{from}-{to} years",
+    "duration": "{minutes} min",
+    "summary": "Story summary",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "share": "Share",
+    "pageOf": "{current} / {total}",
+    "previous": "Previous",
+    "next": "Next",
+    "finishTitle": "Well done!",
+    "finishBody": "You finished the story. Read it again?",
+    "readAgain": "Read again",
+    "backToLibrary": "Back to library",
+    "timeUpTitle": "Reading time is up",
+    "timeUpBody": "Ask a parent to extend reading time"
+  },
+  "search": {
+    "title": "Search",
+    "hint": "Search for a story...",
+    "recent": "Recent searches",
+    "clearRecent": "Clear",
+    "empty": "No results",
+    "startTyping": "Start typing to find your favorite stories"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications",
+    "markAllRead": "Mark all as read",
+    "newStory": "New story",
+    "reminder": "Reminder",
+    "badge": "New badge"
+  },
+  "personalInfo": {
+    "title": "Personal info",
+    "save": "Save changes",
+    "name": "Parent name",
+    "childName": "Child name",
+    "ageGroup": "Age group",
+    "avatar": "Change avatar",
+    "saved": "Changes saved",
+    "saveError": "Couldn't save, try again"
   },
   "profile": {
     "account": {

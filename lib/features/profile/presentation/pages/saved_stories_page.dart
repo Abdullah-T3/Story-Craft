@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/localization/locale_keys.g.dart';
+import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 import 'package:story_craft/features/profile/presentation/cubit/saved_stories/saved_stories_cubit.dart';
@@ -96,8 +98,16 @@ class _SavedList extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.only(bottom: 24.h),
       itemCount: state.stories.length,
-      itemBuilder: (_, i) =>
-          SavedStoryCard(story: state.stories[i], onTap: () {}),
+      itemBuilder: (_, i) {
+        final story = state.stories[i];
+        return SavedStoryCard(
+          story: story,
+          onTap: () => context.pushNamed(
+            AppRoutes.storyDetailsPath,
+            arguments: story.id,
+          ),
+        );
+      },
     );
   }
 }
