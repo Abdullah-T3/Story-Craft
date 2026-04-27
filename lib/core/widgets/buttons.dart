@@ -73,7 +73,7 @@ class Buttons extends StatelessWidget {
                 prefixIcon!,
                 SizedBox(width: spacing),
               ],
-              Text(label, style: TextStyle(color: fg)),
+              Text(label, style: TextStyle(color: fg , fontSize: 16.sp)),
               if (suffixIcon != null) ...[
                 SizedBox(width: spacing),
                 suffixIcon!,
