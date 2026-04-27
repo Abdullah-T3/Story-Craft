@@ -6,4 +6,10 @@ class AppRoutes {
   static const String mainLayoutPath = '/mainLayout';
   static const String storySetupPath = '/story-setup';
   static const String storyPagesEditorPath = '/story-pages-editor';
+
+  // Profile feature
+  static const String accountPath = '/profile/account';
+  static const String achievementsPath = '/profile/achievements';
+  static const String savedStoriesPath = '/profile/saved';
+  static const String parentalControlPath = '/profile/parental';
 }

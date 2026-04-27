@@ -15,6 +15,18 @@ import 'package:story_craft/features/auth/domain/usecases/reset_password_usecase
 import 'package:story_craft/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:story_craft/features/profile/data/datasources/firestore_profile_datasource.dart';
+import 'package:story_craft/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:story_craft/features/profile/domain/repositories/profile_repository.dart';
+import 'package:story_craft/features/profile/domain/usecases/get_achievements_usecase.dart';
+import 'package:story_craft/features/profile/domain/usecases/get_parental_settings_usecase.dart';
+import 'package:story_craft/features/profile/domain/usecases/get_reader_profile_usecase.dart';
+import 'package:story_craft/features/profile/domain/usecases/get_saved_stories_usecase.dart';
+import 'package:story_craft/features/profile/domain/usecases/update_parental_settings_usecase.dart';
+import 'package:story_craft/features/profile/presentation/cubit/account/account_cubit.dart';
+import 'package:story_craft/features/profile/presentation/cubit/achievements/achievements_cubit.dart';
+import 'package:story_craft/features/profile/presentation/cubit/parental/parental_cubit.dart';
+import 'package:story_craft/features/profile/presentation/cubit/saved_stories/saved_stories_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -50,6 +62,29 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton(() => ResetPasswordUseCase(getIt<AuthRepository>()))
     ..registerLazySingleton(() => LogoutUseCase(getIt<AuthRepository>()))
     ..registerLazySingleton(() => SignUpUseCase(getIt<AuthRepository>()))
+    // Profile
+    ..registerLazySingleton(FirestoreProfileDatasource.new)
+    ..registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(
+        firestore: getIt<FirestoreProfileDatasource>(),
+        auth: getIt<AuthRepository>(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => GetReaderProfileUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerLazySingleton(
+      () => GetAchievementsUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerLazySingleton(
+      () => GetSavedStoriesUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerLazySingleton(
+      () => GetParentalSettingsUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerLazySingleton(
+      () => UpdateParentalSettingsUseCase(getIt<ProfileRepository>()),
+    )
     // Cubits
     ..registerFactory(
       () => AuthCubit(
@@ -59,5 +94,18 @@ Future<void> configureDependencies() async {
         logout: getIt<LogoutUseCase>(),
       ),
     )
-    ..registerFactory(() => SignUpCubit(getIt<SignUpUseCase>()));
+    ..registerFactory(() => SignUpCubit(getIt<SignUpUseCase>()))
+    ..registerFactory(() => AccountCubit(getIt<GetReaderProfileUseCase>()))
+    ..registerFactory(
+      () => AchievementsCubit(getIt<GetAchievementsUseCase>()),
+    )
+    ..registerFactory(
+      () => SavedStoriesCubit(getIt<GetSavedStoriesUseCase>()),
+    )
+    ..registerFactory(
+      () => ParentalCubit(
+        getSettings: getIt<GetParentalSettingsUseCase>(),
+        updateSettings: getIt<UpdateParentalSettingsUseCase>(),
+      ),
+    );
 }
