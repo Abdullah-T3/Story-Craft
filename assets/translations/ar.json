@@ -17,12 +17,77 @@
     "cancel": "إلغاء",
     "showAll": "عرض الكل",
     "settings": "الإعدادات",
-    "minuteShort": "د"
+    "minuteShort": "د",
+    "ok": "حسناً",
+    "close": "إغلاق",
+    "done": "تم"
   },
   "nav": {
     "home": "الرئيسية",
+    "library": "المكتبة",
     "create": "إنشاء",
+    "favorites": "المفضلة",
+    "achievements": "الإنجازات",
     "account": "حسابي"
+  },
+  "library": {
+    "greeting": "أهلاً، {name} 👋",
+    "subtitle": "ماذا تقرأ اليوم؟",
+    "storyOfTheDay": "قصة اليوم",
+    "startReading": "ابدأ القراءة",
+    "continueReading": "تابع القراءة",
+    "empty": "لا توجد قصص في هذه الفئة بعد"
+  },
+  "categories": {
+    "all": "الكل",
+    "adventures": "مغامرات",
+    "fantasy": "خيال",
+    "animals": "حيوانات",
+    "educational": "تعليمي",
+    "newReleases": "جديد"
+  },
+  "story": {
+    "ageRange": "{from}-{to} سنوات",
+    "duration": "{minutes} دقيقة",
+    "summary": "ملخّص القصة",
+    "addToFavorites": "أضف للمفضلة",
+    "removeFromFavorites": "إزالة من المفضلة",
+    "share": "مشاركة",
+    "pageOf": "{current} / {total}",
+    "previous": "السابق",
+    "next": "التالي",
+    "finishTitle": "أحسنت!",
+    "finishBody": "أكملت القصة. هل تريد قراءتها مرة أخرى؟",
+    "readAgain": "قراءة مرة أخرى",
+    "backToLibrary": "العودة للمكتبة",
+    "timeUpTitle": "انتهى وقت القراءة",
+    "timeUpBody": "اطلب من ولي الأمر تمديد وقت القراءة"
+  },
+  "search": {
+    "title": "بحث",
+    "hint": "ابحث عن قصة...",
+    "recent": "عمليات البحث الأخيرة",
+    "clearRecent": "مسح",
+    "empty": "لا توجد نتائج",
+    "startTyping": "ابدأ بالكتابة للبحث عن قصصك المفضلة"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "empty": "لا توجد إشعارات",
+    "markAllRead": "تعليم الكل كمقروء",
+    "newStory": "قصة جديدة",
+    "reminder": "تذكير",
+    "badge": "شارة جديدة"
+  },
+  "personalInfo": {
+    "title": "المعلومات الشخصية",
+    "save": "حفظ التغييرات",
+    "name": "اسم ولي الأمر",
+    "childName": "اسم الطفل",
+    "ageGroup": "الفئة العمرية",
+    "avatar": "تغيير الصورة",
+    "saved": "تم حفظ التغييرات",
+    "saveError": "تعذر الحفظ، حاول مرة أخرى"
   },
   "profile": {
     "account": {

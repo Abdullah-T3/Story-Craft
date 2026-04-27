@@ -18,6 +18,13 @@ class FirestoreProfileDatasource {
     return snap.data();
   }
 
+  Future<void> updateUser(String uid, Map<String, dynamic> data) async {
+    await _userDoc(uid).set({
+      ...data,
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+  }
+
   Future<List<Map<String, dynamic>>> getSavedStories({
     required String uid,
     required bool favoritesOnly,
