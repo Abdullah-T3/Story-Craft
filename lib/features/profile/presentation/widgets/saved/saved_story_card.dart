@@ -112,17 +112,33 @@ class SavedStoryCard extends StatelessWidget {
               ),
             ),
             SizedBox(width: 12.w),
-            Container(
-              width: 56.r,
-              height: 56.r,
-              decoration: BoxDecoration(
-                color: story.coverColor,
-                borderRadius: BorderRadius.circular(14.r),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                story.coverEmoji,
-                style: TextStyle(fontSize: 28.sp),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14.r),
+              child: SizedBox(
+                width: 56.r,
+                height: 56.r,
+                child: (story.coverImageUrl != null &&
+                        story.coverImageUrl!.isNotEmpty)
+                    ? Image.network(
+                        story.coverImageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stack) => Container(
+                          color: story.coverColor,
+                          alignment: Alignment.center,
+                          child: Text(
+                            story.coverEmoji,
+                            style: TextStyle(fontSize: 28.sp),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        color: story.coverColor,
+                        alignment: Alignment.center,
+                        child: Text(
+                          story.coverEmoji,
+                          style: TextStyle(fontSize: 28.sp),
+                        ),
+                      ),
               ),
             ),
           ],

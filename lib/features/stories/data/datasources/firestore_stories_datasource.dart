@@ -11,6 +11,7 @@ class FirestoreStoriesDatasource {
   static const _favorites = 'favorites';
   static const _history = 'history';
   static const _featured = 'featured';
+  static const _myStories = 'myStories';
 
   CollectionReference<Map<String, dynamic>> get _storiesRef =>
       _firestore.collection(_stories);
@@ -24,11 +25,22 @@ class FirestoreStoriesDatasource {
     return snap.docs.map((d) => {...d.data(), 'id': d.id}).toList();
   }
 
-  Future<Map<String, dynamic>?> getStoryById(String id) async {
+  Future<Map<String, dynamic>?> getStoryById(String id, {String? uid}) async {
     final doc = await _storiesRef.doc(id).get();
     final data = doc.data();
-    if (data == null) return null;
-    return {...data, 'id': doc.id};
+    if (data != null) return {...data, 'id': doc.id};
+    // Fallback: maybe it's a user-authored story under users/{uid}/myStories.
+    if (uid != null) {
+      final mine = await _firestore
+          .collection(_users)
+          .doc(uid)
+          .collection(_myStories)
+          .doc(id)
+          .get();
+      final m = mine.data();
+      if (m != null) return {...m, 'id': mine.id};
+    }
+    return null;
   }
 
   Future<List<Map<String, dynamic>>> getByIds(List<String> ids) async {
@@ -137,5 +149,39 @@ class FirestoreStoriesDatasource {
         .orderBy('lastOpenedAt', descending: true)
         .get();
     return snap.docs.map((d) => {...d.data(), 'storyId': d.id}).toList();
+  }
+
+  // ── Authoring ──────────────────────────────────────────────────────────────
+
+  Future<String> createMyStory(String uid, Map<String, dynamic> data) async {
+    final batch = _firestore.batch();
+    final storyRef = _firestore
+        .collection(_users)
+        .doc(uid)
+        .collection(_myStories)
+        .doc();
+    batch.set(storyRef, {
+      ...data,
+      'authorId': uid,
+      'createdAt': FieldValue.serverTimestamp(),
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+    final userRef = _firestore.collection(_users).doc(uid);
+    batch.set(userRef, {
+      'storiesWritten': FieldValue.increment(1),
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+    await batch.commit();
+    return storyRef.id;
+  }
+
+  Future<List<Map<String, dynamic>>> getMyStories(String uid) async {
+    final snap = await _firestore
+        .collection(_users)
+        .doc(uid)
+        .collection(_myStories)
+        .orderBy('createdAt', descending: true)
+        .get();
+    return snap.docs.map((d) => {...d.data(), 'id': d.id}).toList();
   }
 }

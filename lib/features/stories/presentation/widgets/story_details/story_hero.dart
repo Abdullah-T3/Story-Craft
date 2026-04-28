@@ -31,6 +31,7 @@ class StoryHero extends StatelessWidget {
           Container(
             width: 140.r,
             height: 140.r,
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(28.r),
@@ -42,8 +43,24 @@ class StoryHero extends StatelessWidget {
                 ),
               ],
             ),
-            alignment: Alignment.center,
-            child: Text(story.coverEmoji, style: TextStyle(fontSize: 72.sp)),
+            child: (story.coverImageUrl != null &&
+                    story.coverImageUrl!.isNotEmpty)
+                ? Image.network(
+                    story.coverImageUrl!,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stack) => Center(
+                      child: Text(
+                        story.coverEmoji,
+                        style: TextStyle(fontSize: 72.sp),
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      story.coverEmoji,
+                      style: TextStyle(fontSize: 72.sp),
+                    ),
+                  ),
           ),
           SizedBox(height: 16.h),
           Text(

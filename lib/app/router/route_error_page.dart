@@ -16,7 +16,7 @@ class RouteErrorPage extends StatelessWidget {
         child: AppErrorView(
           message: 'Could not open this route:\n${routeName ?? 'unknown'}',
           onRetry: () => context.pushNamedAndRemoveUntil(
-            AppRoutes.homePath,
+            AppRoutes.mainLayoutPath,
             predicate: (_) => false,
           ),
         ),

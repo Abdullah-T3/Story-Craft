@@ -4,10 +4,9 @@ import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/widgets/main_layout.dart';
 import 'package:story_craft/features/auth/login/presentation/pages/login_page.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/pages/sign_up_page.dart';
-import 'package:story_craft/features/home/presentation/home_page.dart';
 import 'package:story_craft/features/notifications/presentation/pages/notifications_page.dart';
-import 'package:story_craft/features/home/create/presentation/pages/story_pages_editor_screen.dart';
-import 'package:story_craft/features/home/home/presentation/home_page.dart';
+import 'package:story_craft/features/stories/presentation/pages/story_pages_editor_screen.dart';
+import 'package:story_craft/features/stories/presentation/pages/story_setup_screen.dart';
 import 'package:story_craft/features/onboarding/presentation/page/onboarding.dart';
 import 'package:story_craft/features/profile/presentation/pages/account_page.dart';
 import 'package:story_craft/features/profile/presentation/pages/achievements_page.dart';
@@ -38,9 +37,9 @@ abstract final class AppRouter {
           builder: (_) => const SignUpPage(),
           settings: settings,
         );
-      case AppRoutes.homePath:
+      case AppRoutes.storySetupPath:
         return MaterialPageRoute<void>(
-          builder: (_) => const HomePage(),
+          builder: (_) => const StorySetupPage(),
           settings: settings,
         );
       case AppRoutes.storyPagesEditorPath:

@@ -27,4 +27,21 @@ abstract interface class StoriesRepository {
   });
 
   Future<AppResult<List<ReadingProgress>>> getHistory();
+
+  Future<AppResult<Story>> createStory({
+    required String title,
+    required String summary,
+    required String categoryId,
+    required int coverColor,
+    required String coverEmoji,
+    required int ageRangeFrom,
+    required int ageRangeTo,
+    required int durationMinutes,
+    required List<String> pageTexts,
+    required List<String> tags,
+    String? coverImageUrl,
+    List<String?> pageImageUrls = const [],
+  });
+
+  Future<AppResult<List<Story>>> getMyStories();
 }

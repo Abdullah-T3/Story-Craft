@@ -59,8 +59,7 @@ class _LoginViewState extends State<_LoginView> {
             child: Column(
               children: [
                 LoginHeader(
-                  onBackPressed: () =>
-                      context.pushReplacementNamed(AppRoutes.homePath),
+                  onBackPressed: () => Navigator.of(context).maybePop(),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),

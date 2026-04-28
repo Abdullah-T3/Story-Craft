@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:story_craft/app/router/routs.dart';
 import 'package:story_craft/core/localization/locale_keys.g.dart';
+import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/main_scaffold.dart';
 import 'package:story_craft/features/profile/presentation/pages/account_page.dart';
@@ -24,11 +26,18 @@ class _MainLayoutState extends State<MainLayout> {
   static const List<Widget> _screens = [
     LibraryPage(),
     SavedStoriesPage(),
+    SizedBox.shrink(), // Create tab pushes a route instead of switching tab.
     AchievementsPage(),
     AccountPage(),
   ];
 
-  void _onTap(int index) => setState(() => _currentIndex = index);
+  void _onTap(int index) {
+    if (index == 2) {
+      context.pushNamed(AppRoutes.storySetupPath);
+      return;
+    }
+    setState(() => _currentIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +100,20 @@ class _BottomNavBar extends StatelessWidget {
             _NavItem(
               icon: Icons.person_outline,
               label: LocaleKeys.nav_account.tr(),
-              index: 3,
+              index: 4,
               currentIndex: currentIndex,
               onTap: onTap,
             ),
             _NavItem(
               icon: Icons.emoji_events_outlined,
               label: LocaleKeys.nav_achievements.tr(),
+              index: 3,
+              currentIndex: currentIndex,
+              onTap: onTap,
+            ),
+            _NavItem(
+              icon: Icons.auto_awesome_rounded,
+              label: LocaleKeys.nav_create.tr(),
               index: 2,
               currentIndex: currentIndex,
               onTap: onTap,

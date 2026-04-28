@@ -23,7 +23,7 @@ class CategoryChips extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         scrollDirection: Axis.horizontal,
         itemCount: CategoryCatalog.all.length,
-        separatorBuilder: (_, __) => SizedBox(width: 8.w),
+        separatorBuilder: (_, _) => SizedBox(width: 8.w),
         itemBuilder: (_, i) {
           final c = CategoryCatalog.all[i];
           return _Chip(

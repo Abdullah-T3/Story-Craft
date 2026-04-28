@@ -13,6 +13,7 @@ class SavedStory {
     required this.progress,
     required this.isFavorite,
     required this.lastOpenedAt,
+    this.coverImageUrl,
   });
 
   final String id;
@@ -24,4 +25,5 @@ class SavedStory {
   final double progress;
   final bool isFavorite;
   final DateTime lastOpenedAt;
+  final String? coverImageUrl;
 }

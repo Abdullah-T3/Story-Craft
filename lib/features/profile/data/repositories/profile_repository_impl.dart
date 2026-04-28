@@ -43,7 +43,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       }
       return Right(readerProfileFromMap(uid, data));
     } on Exception {
-      return Right(_defaultProfile(uid));
+      return const Left(ServerFailure(message: 'تعذر جلب الملف الشخصي'));
     }
   }
 
@@ -57,10 +57,17 @@ class ProfileRepositoryImpl implements ProfileRepository {
             (await _stories.getHistory()).getRight().toNullable() ??
             const <ReadingProgress>[];
         final stats = _computeStats(history, p);
+        final badges = BadgeRules.evaluate(stats);
+        final unlockedCount = badges.where((b) => b.unlocked).length;
+        // Keep the user doc's badge count in sync so the profile header
+        // shows the same number unlocked on the achievements screen.
+        if (unlockedCount != p.badgesCount) {
+          await _persistBadgesCount(p.uid, unlockedCount);
+        }
         return Right(
           AchievementsSummary(
             levelKey: p.levelKey,
-            badges: BadgeRules.evaluate(stats),
+            badges: badges,
             streakDays: stats.streakDays,
             streakWeek: stats.streakWeek,
           ),
@@ -72,36 +79,44 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ReaderStats _computeStats(List<ReadingProgress> history, ReaderProfile p) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    // Build a set of dates with reading activity (completed reads only).
-    final readDays = <DateTime>{};
-    for (final h in history.where((h) => h.completed)) {
-      final d = DateTime(
-        h.lastOpenedAt.year,
-        h.lastOpenedAt.month,
-        h.lastOpenedAt.day,
-      );
-      readDays.add(d);
-    }
-    // Walk back from today counting consecutive reading days.
+    // Any history entry on a given day counts as reading activity — we don't
+    // want to break the streak just because the child paused mid-story.
+    final readDays = <DateTime>{
+      for (final h in history)
+        DateTime(h.lastOpenedAt.year, h.lastOpenedAt.month, h.lastOpenedAt.day),
+    };
     var streak = 0;
     var cursor = today;
     while (readDays.contains(cursor)) {
       streak++;
       cursor = cursor.subtract(const Duration(days: 1));
     }
-    // Build last-7-day strip (oldest → newest).
     final week = <bool>[
       for (var i = 6; i >= 0; i--)
         readDays.contains(today.subtract(Duration(days: i))),
     ];
+    DateTime? lastRead;
+    for (final h in history) {
+      if (lastRead == null || h.lastOpenedAt.isAfter(lastRead)) {
+        lastRead = h.lastOpenedAt;
+      }
+    }
     return ReaderStats(
       streakDays: streak,
-      lastReadDate: history.isEmpty ? null : history.first.lastOpenedAt,
+      lastReadDate: lastRead,
       storiesRead: history.where((h) => h.completed).length,
       storiesWritten: p.storiesWritten,
       storiesPrinted: p.storiesPrinted,
       streakWeek: week,
     );
+  }
+
+  Future<void> _persistBadgesCount(String uid, int count) async {
+    try {
+      await _firestore.updateUser(uid, {'badgesCount': count});
+    } on Exception {
+      // Best-effort mirror — don't fail the achievements load over it.
+    }
   }
 
   @override
@@ -148,6 +163,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       categoryLabel: s.categoryId,
       coverEmoji: s.coverEmoji,
       coverColor: s.coverColor,
+      coverImageUrl: s.coverImageUrl,
       durationMinutes: s.durationMinutes,
       progress: 0,
       isFavorite: fav,
@@ -162,6 +178,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       categoryLabel: s.categoryId,
       coverEmoji: s.coverEmoji,
       coverColor: s.coverColor,
+      coverImageUrl: s.coverImageUrl,
       durationMinutes: s.durationMinutes,
       progress: p.progress,
       isFavorite: false,
@@ -231,14 +248,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ReaderProfile _defaultProfile(String uid) {
     return ReaderProfile(
       uid: uid,
-      displayName: _auth.currentUser?.displayName ?? 'ريّان أحمد',
+      displayName: _auth.currentUser?.displayName ?? '',
       avatarEmoji: '🐻',
       photoUrl: _auth.currentUser?.photoUrl ?? '',
       levelKey: 'levelSkilledReader',
-      joinedAt: DateTime.now().subtract(const Duration(days: 90)),
-      badgesCount: 7,
-      storiesWritten: 12,
-      storiesPrinted: 24,
+      joinedAt: DateTime.now(),
+      badgesCount: 0,
+      storiesWritten: 0,
+      storiesPrinted: 0,
     );
   }
 

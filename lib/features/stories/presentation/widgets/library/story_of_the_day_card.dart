@@ -41,17 +41,19 @@ class StoryOfTheDayCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
-                width: 84.r,
-                height: 84.r,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.20),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  story.coverEmoji,
-                  style: TextStyle(fontSize: 44.sp),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.r),
+                child: SizedBox(
+                  width: 84.r,
+                  height: 84.r,
+                  child: story.coverImageUrl != null &&
+                          story.coverImageUrl!.isNotEmpty
+                      ? Image.network(
+                          story.coverImageUrl!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => _Placeholder(story: story),
+                        )
+                      : _Placeholder(story: story),
                 ),
               ),
               SizedBox(width: 14.w),
@@ -102,6 +104,20 @@ class StoryOfTheDayCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Placeholder extends StatelessWidget {
+  const _Placeholder({required this.story});
+  final Story story;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: Colors.white.withOpacity(0.20)),
+      alignment: Alignment.center,
+      child: Text(story.coverEmoji, style: TextStyle(fontSize: 44.sp)),
     );
   }
 }

@@ -10,13 +10,14 @@ class ReaderPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasImage = page.imageUrl != null && page.imageUrl!.isNotEmpty;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
       child: Column(
         children: [
           Expanded(
-            child: Container(
-              width: double.infinity,
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(28.r),
@@ -28,16 +29,37 @@ class ReaderPageView extends StatelessWidget {
                   ),
                 ],
               ),
-              alignment: Alignment.center,
-              child: page.imageUrl != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(28.r),
-                      child: Image.network(page.imageUrl!, fit: BoxFit.cover),
-                    )
-                  : Text(
-                      page.emoji ?? '📖',
-                      style: TextStyle(fontSize: 96.sp),
-                    ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(28.r),
+                child: SizedBox.expand(
+                  child: hasImage
+                      ? Image.network(
+                          page.imageUrl!,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryDark,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stack) => Center(
+                            child: Icon(
+                              Icons.broken_image_outlined,
+                              size: 64.sp,
+                              color: AppColors.textTertiary,
+                            ),
+                          ),
+                        )
+                      : Center(
+                          child: Text(
+                            page.emoji ?? '📖',
+                            style: TextStyle(fontSize: 96.sp),
+                          ),
+                        ),
+                ),
+              ),
             ),
           ),
           SizedBox(height: 20.h),

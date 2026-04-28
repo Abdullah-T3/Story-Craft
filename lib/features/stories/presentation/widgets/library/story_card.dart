@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/features/stories/domain/entities/story.dart';
+import 'package:story_craft/features/stories/presentation/widgets/library/story_cover.dart';
 
 class StoryCard extends StatelessWidget {
   const StoryCard({super.key, required this.story, required this.onTap});
@@ -32,15 +33,13 @@ class StoryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: story.coverColor,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  story.coverEmoji,
-                  style: TextStyle(fontSize: 56.sp),
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+                child: StoryCover(
+                  imageUrl: story.coverImageUrl,
+                  fallbackColor: story.coverColor,
+                  emoji: story.coverEmoji,
+                  emojiSize: 56.sp,
                 ),
               ),
             ),

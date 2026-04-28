@@ -15,6 +15,7 @@ import 'package:story_craft/features/auth/domain/usecases/reset_password_usecase
 import 'package:story_craft/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:story_craft/features/auth/login/presentation/cubit/auth_cubit.dart';
 import 'package:story_craft/features/auth/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:story_craft/features/stories/presentation/cubit/create_story/create_story_cubit.dart';
 import 'package:story_craft/features/notifications/data/datasources/firestore_notifications_datasource.dart';
 import 'package:story_craft/features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'package:story_craft/features/notifications/domain/repositories/notifications_repository.dart';
@@ -36,6 +37,7 @@ import 'package:story_craft/features/profile/presentation/cubit/saved_stories/sa
 import 'package:story_craft/features/stories/data/datasources/firestore_stories_datasource.dart';
 import 'package:story_craft/features/stories/data/repositories/stories_repository_impl.dart';
 import 'package:story_craft/features/stories/domain/repositories/stories_repository.dart';
+import 'package:story_craft/features/stories/domain/usecases/create_story_usecase.dart';
 import 'package:story_craft/features/stories/domain/usecases/get_stories_usecase.dart';
 import 'package:story_craft/features/stories/domain/usecases/get_story_by_id_usecase.dart';
 import 'package:story_craft/features/stories/domain/usecases/get_story_of_the_day_usecase.dart';
@@ -104,6 +106,9 @@ Future<void> configureDependencies() async {
     )
     ..registerLazySingleton(
       () => SaveProgressUseCase(getIt<StoriesRepository>()),
+    )
+    ..registerLazySingleton(
+      () => CreateStoryUseCase(getIt<StoriesRepository>()),
     )
     // Profile
     ..registerLazySingleton(FirestoreProfileDatasource.new)
@@ -200,5 +205,11 @@ Future<void> configureDependencies() async {
     )
     ..registerFactory(
       () => NotificationsCubit(getIt<NotificationsRepository>()),
+    )
+    ..registerFactory(
+      () => CreateStoryCubit(
+        createStory: getIt<CreateStoryUseCase>(),
+        cloudinary: getIt<CloudinaryService>(),
+      ),
     );
 }

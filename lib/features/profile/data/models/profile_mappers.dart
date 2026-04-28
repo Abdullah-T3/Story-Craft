@@ -31,6 +31,7 @@ SavedStory savedStoryFromMap(Map<String, dynamic> data) {
     categoryLabel: (data['categoryLabel'] ?? '') as String,
     coverEmoji: (data['coverEmoji'] ?? '📖') as String,
     coverColor: Color((data['coverColor'] ?? 0xFFD6F0E8) as int),
+    coverImageUrl: data['coverImageUrl'] as String?,
     durationMinutes: (data['durationMinutes'] ?? 0) as int,
     progress: ((data['progress'] ?? 0) as num).toDouble(),
     isFavorite: (data['isFavorite'] ?? false) as bool,
