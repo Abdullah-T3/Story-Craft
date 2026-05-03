@@ -1,6 +1,11 @@
 # Story Craft — CI/CD Pipeline
 
-This document describes the continuous integration and delivery pipeline for the Story Craft Flutter app, hosted on **Codemagic** with release artifacts distributed via **Firebase App Distribution**.
+This document describes the continuous integration and delivery pipeline for the Story Craft Flutter app.
+
+Two CI providers are wired up, each playing a different role:
+
+- **GitHub Actions** ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) — fast feedback on every push/PR. Runs on Linux, no signing or secrets needed. Acts as the merge gate.
+- **Codemagic** ([`codemagic.yaml`](../codemagic.yaml)) — Mac-based release pipeline. Builds signed iOS/Android artifacts and pushes them to **Firebase App Distribution**.
 
 ---
 
@@ -11,29 +16,37 @@ This document describes the continuous integration and delivery pipeline for the
                    │              Developer pushes               │
                    └──────────────────────┬──────────────────────┘
                                           │
-                ┌─────────────────────────┴──────────────────────┐
-                │                                                │
-        push / pull_request                                  tag v*
-                │                                                │
-                ▼                                                ▼
-      ┌──────────────────┐                       ┌──────────────────────────┐
-      │  test workflow   │                       │  android-build workflow  │
-      │ (analyze + test) │                       │  ios-build  workflow     │
-      └──────────────────┘                       └────────────┬─────────────┘
-                                                              │
-                                                              ▼
-                                                ┌──────────────────────────┐
-                                                │ Firebase App Distribution│
-                                                │  → qa-testers group      │
-                                                └──────────────────────────┘
+            ┌─────────────────────────────┼─────────────────────────────┐
+            │                             │                             │
+   push / pull_request           push to main                        tag v*
+            │                             │                             │
+            ▼                             ▼                             ▼
+  ┌──────────────────────┐     ┌──────────────────────┐     ┌──────────────────────┐
+  │  GitHub Actions: CI  │     │  Codemagic:          │     │  Codemagic:          │
+  │  - test (Ubuntu)     │     │  android-build       │     │  android-build       │
+  │  - android debug APK │     │  + Firebase distrib. │     │  ios-build           │
+  └──────────┬───────────┘     └──────────┬───────────┘     └──────────┬───────────┘
+             │                            │                            │
+             ▼                            ▼                            ▼
+        merge gate              Firebase App Distribution    Firebase App Distribution
+                                    → qa-testers                 → qa-testers
 ```
 
-Three workflows are defined in [`codemagic.yaml`](../codemagic.yaml):
+### Workflow inventory
+
+**GitHub Actions** ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)):
+
+| Job             | Trigger                       | Purpose                                     |
+| --------------- | ----------------------------- | ------------------------------------------- |
+| `test`          | every `push` / `pull_request` | Format check, static analysis, unit tests + coverage upload |
+| `android-build` | `push` to `main` (after `test` passes) | Sanity debug-APK build, uploaded as artifact |
+
+**Codemagic** ([`codemagic.yaml`](../codemagic.yaml)):
 
 | Workflow        | Trigger                       | Purpose                                     |
 | --------------- | ----------------------------- | ------------------------------------------- |
-| `test`          | every `push` / `pull_request` | Format check, static analysis, unit tests   |
-| `android-build` | `push` to `main` + `v*` tag   | Build APK + AAB, distribute APK to testers  |
+| `test`          | every `push` / `pull_request` | Same checks as GitHub Actions, runs on Mac  |
+| `android-build` | `push` to `main` + `v*` tag   | Build release APK + AAB, distribute APK     |
 | `ios-build`     | `v*` tag                      | Build signed IPA, distribute to testers     |
 
 ---
@@ -49,7 +62,30 @@ Pinning the Flutter version prevents unexpected breakage when the Flutter team s
 
 ---
 
-## Workflows
+## GitHub Actions
+
+Defined in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Uses [`subosito/flutter-action`](https://github.com/subosito/flutter-action) to install Flutter.
+
+### Job: `test`
+
+Runs on `ubuntu-latest` for every push and PR on every branch. Concurrency is keyed on workflow + ref, so newer commits cancel older in-flight runs on the same branch.
+
+**Steps:** checkout → Flutter setup → `pub get` → format check → `flutter analyze` → `flutter test --coverage` → upload `coverage/lcov.info` as an artifact (14-day retention).
+
+### Job: `android-build`
+
+Runs only on `push` to `main`, gated on `test` passing. Builds an unsigned debug APK as a smoke test that the Android build still works on Linux. Uploads `app-debug.apk` as an artifact. Does **not** publish to Firebase — that's Codemagic's job (see below).
+
+### Why both providers?
+
+- GitHub Actions is free for public repos and has tight PR integration → ideal for the merge gate.
+- Codemagic provides Mac runners, Xcode signing, and a first-class Firebase App Distribution publishing block → ideal for shipping signed builds.
+
+If you eventually want a single source of truth, you can drop the Codemagic `test` workflow and let GitHub Actions own all CI checks while Codemagic handles only the release builds.
+
+---
+
+## Codemagic Workflows
 
 ### 1. `test` — Test & Analyze
 
@@ -139,7 +175,7 @@ The Firebase App Distribution group is currently **`qa-testers`**. To change it,
 
 ## Local Equivalent
 
-The [`scripts/test.sh`](../scripts/test.sh) script mirrors the `test` workflow so contributors can validate locally before pushing.
+The [`scripts/test.sh`](../scripts/test.sh) script mirrors the `test` job (in both providers) so contributors can validate locally before pushing.
 
 ```bash
 # Run the same checks Codemagic runs
@@ -199,7 +235,8 @@ Update `version:` in [`pubspec.yaml`](../pubspec.yaml) before tagging — Flutte
 
 ## Future Improvements
 
-- **Coverage gate:** fail PRs that drop coverage below a threshold (e.g. `lcov` + `lcov_cobertura`).
-- **Play Store / App Store publishing:** add `google_play` and `app_store_connect` publishing blocks for tagged releases.
+- **Coverage gate:** fail PRs that drop coverage below a threshold (e.g. Codecov action consuming the GitHub Actions `coverage-lcov` artifact).
+- **Play Store / App Store publishing:** add `google_play` and `app_store_connect` publishing blocks to Codemagic for tagged releases.
 - **Integration tests:** add a `flutter drive` workflow once a critical user flow is locked down.
-- **Branch-protection rule:** require the `test` workflow to pass on GitHub before merging to `main`.
+- **Branch-protection rule:** require the GitHub Actions `test` job to pass before merging to `main`.
+- **Consolidate CI:** if running both providers feels redundant, keep GitHub Actions for checks and Codemagic only for release builds + Firebase distribution.
