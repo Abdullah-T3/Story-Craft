@@ -138,7 +138,11 @@ abstract class  LocaleKeys {
   static const profile_account = 'profile.account';
   static const profile_achievements_title = 'profile.achievements.title';
   static const profile_achievements_currentLevel = 'profile.achievements.currentLevel';
+  static const profile_achievements_levelBeginner = 'profile.achievements.levelBeginner';
+  static const profile_achievements_levelCurious = 'profile.achievements.levelCurious';
   static const profile_achievements_levelSkilledReader = 'profile.achievements.levelSkilledReader';
+  static const profile_achievements_levelVoracious = 'profile.achievements.levelVoracious';
+  static const profile_achievements_levelChampion = 'profile.achievements.levelChampion';
   static const profile_achievements_badgesProgress = 'profile.achievements.badgesProgress';
   static const profile_achievements_streakTitle = 'profile.achievements.streakTitle';
   static const profile_achievements_streakSubtitle = 'profile.achievements.streakSubtitle';

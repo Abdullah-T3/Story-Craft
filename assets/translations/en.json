@@ -149,7 +149,11 @@
     "achievements": {
       "title": "My achievements",
       "currentLevel": "Current level",
+      "levelBeginner": "Beginner reader",
+      "levelCurious": "Curious reader",
       "levelSkilledReader": "Skilled reader",
+      "levelVoracious": "Voracious reader",
+      "levelChampion": "Reading champion",
       "badgesProgress": "Badges ({earned} of {total})",
       "streakTitle": "{days}-day streak!",
       "streakSubtitle": "Read today to keep your streak",

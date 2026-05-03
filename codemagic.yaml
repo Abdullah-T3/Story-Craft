@@ -1,0 +1,118 @@
+workflows:
+  test:
+    name: Test & Analyze
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      flutter: 3.41.6
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: "*"
+          include: true
+          source: true
+    scripts:
+      - name: Flutter version
+        script: flutter --version
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Verify formatting
+        script: dart format --output=none --set-exit-if-changed .
+      - name: Analyze project
+        script: flutter analyze
+      - name: Run tests
+        script: flutter test --coverage
+    artifacts:
+      - coverage/lcov.info
+
+  android-build:
+    name: Android Build & Firebase Distribution
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: 3.41.6
+      groups:
+        - firebase_credentials
+      vars:
+        FIREBASE_ANDROID_APP_ID: $FIREBASE_ANDROID_APP_ID
+        FIREBASE_TESTER_GROUPS: "qa-testers"
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: "main"
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+    scripts:
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Run tests
+        script: flutter test
+      - name: Build APK
+        script: flutter build apk --release
+      - name: Build App Bundle
+        script: flutter build appbundle --release
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/release/*.aab
+    publishing:
+      firebase:
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+        android:
+          app_id: $FIREBASE_ANDROID_APP_ID
+          groups:
+            - qa-testers
+          artifact_type: apk
+          release_notes: |
+            Build $CM_BUILD_ID from $CM_BRANCH
+            Commit: $CM_COMMIT
+
+  ios-build:
+    name: iOS Build & Firebase Distribution
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: 3.41.6
+      xcode: latest
+      cocoapods: default
+      groups:
+        - firebase_credentials
+        - ios_signing
+      vars:
+        FIREBASE_IOS_APP_ID: $FIREBASE_IOS_APP_ID
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+    scripts:
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Run tests
+        script: flutter test
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Install pods
+        script: |
+          cd ios && pod install
+      - name: Build iOS IPA
+        script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      firebase:
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+        ios:
+          app_id: $FIREBASE_IOS_APP_ID
+          groups:
+            - qa-testers
+          release_notes: |
+            Build $CM_BUILD_ID from $CM_BRANCH
+            Commit: $CM_COMMIT

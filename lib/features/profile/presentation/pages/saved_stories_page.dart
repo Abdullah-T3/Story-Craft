@@ -7,6 +7,7 @@ import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
+import 'package:story_craft/core/widgets/inherited_or_new_bloc.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 import 'package:story_craft/features/profile/presentation/cubit/saved_stories/saved_stories_cubit.dart';
 import 'package:story_craft/features/profile/presentation/cubit/saved_stories/saved_stories_state.dart';
@@ -20,8 +21,8 @@ class SavedStoriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
+    return InheritedOrNewBloc<SavedStoriesCubit>(
+      create: () =>
           getIt<SavedStoriesCubit>()..load(SavedStoryListKind.favorites),
       child: const _SavedStoriesView(),
     );

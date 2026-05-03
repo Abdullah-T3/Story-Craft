@@ -7,6 +7,9 @@ import 'package:story_craft/core/theme/app_colors.dart';
 class CurrentLevelBanner extends StatelessWidget {
   const CurrentLevelBanner({super.key, required this.levelKey});
 
+  /// Either a full `profile.achievements.levelXxx` key (preferred — what
+  /// `LevelRules.resolveKey` emits) or a legacy short key like
+  /// `'levelSkilledReader'` from older user docs.
   final String levelKey;
 
   @override
@@ -46,10 +49,16 @@ class CurrentLevelBanner extends StatelessWidget {
   }
 
   String _resolveLevelKey(String key) {
+    // Already a full namespaced key — use it.
+    if (key.startsWith('profile.achievements.level')) return key;
     return switch (key) {
+      'levelBeginner' => LocaleKeys.profile_achievements_levelBeginner,
+      'levelCurious' => LocaleKeys.profile_achievements_levelCurious,
       'levelSkilledReader' =>
         LocaleKeys.profile_achievements_levelSkilledReader,
-      _ => LocaleKeys.profile_achievements_levelSkilledReader,
+      'levelVoracious' => LocaleKeys.profile_achievements_levelVoracious,
+      'levelChampion' => LocaleKeys.profile_achievements_levelChampion,
+      _ => LocaleKeys.profile_achievements_levelBeginner,
     };
   }
 }

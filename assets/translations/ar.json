@@ -149,7 +149,11 @@
     "achievements": {
       "title": "إنجازاتي",
       "currentLevel": "المستوى الحالي",
+      "levelBeginner": "قارئ مبتدئ",
+      "levelCurious": "قارئ فضولي",
       "levelSkilledReader": "قارئ ماهر",
+      "levelVoracious": "قارئ نهم",
+      "levelChampion": "بطل القراءة",
       "badgesProgress": "الشارات ({earned} من {total})",
       "streakTitle": "سلسلة {days} أيام متتالية!",
       "streakSubtitle": "اقرأ اليوم لتستمر السلسلة",

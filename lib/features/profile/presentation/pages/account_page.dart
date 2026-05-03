@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:story_craft/core/di/service_locator.dart';
 import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
-import 'package:story_craft/core/widgets/app_loading.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
+import 'package:story_craft/core/widgets/app_loading.dart';
+import 'package:story_craft/core/widgets/inherited_or_new_bloc.dart';
 import 'package:story_craft/features/profile/domain/entities/reader_profile.dart';
 import 'package:story_craft/features/profile/presentation/cubit/account/account_cubit.dart';
 import 'package:story_craft/features/profile/presentation/cubit/account/account_state.dart';
@@ -21,8 +22,8 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<AccountCubit>()..load(),
+    return InheritedOrNewBloc<AccountCubit>(
+      create: () => getIt<AccountCubit>()..load(),
       child: const _AccountView(),
     );
   }
@@ -63,38 +64,43 @@ class _AccountBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: 120.h),
-      child: Column(
-        children: [
-          ScreenHeader(
-            title: LocaleKeys.profile_account_title.tr(),
-            trailing: CircleIconButton(
-              icon: Icons.settings_outlined,
-              onTap: () {},
+    return RefreshIndicator(
+      color: AppColors.primaryDark,
+      onRefresh: () => context.read<AccountCubit>().load(),
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(bottom: 120.h),
+        child: Column(
+          children: [
+            ScreenHeader(
+              title: LocaleKeys.profile_account_title.tr(),
+              trailing: CircleIconButton(
+                icon: Icons.settings_outlined,
+                onTap: () {},
+              ),
             ),
-          ),
-          SizedBox(height: 16.h),
-          Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.topCenter,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 40.h),
-                child: ProfileHeaderCard(profile: profile),
-              ),
-              Positioned(
-                top: 0,
-                child: AvatarBadge(
-                  emoji: profile.avatarEmoji,
-                  photoUrl: profile.photoUrl,
+            SizedBox(height: 16.h),
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.topCenter,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 40.h),
+                  child: ProfileHeaderCard(profile: profile),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 24.h),
-          const SettingsSection(),
-        ],
+                Positioned(
+                  top: 0,
+                  child: AvatarBadge(
+                    emoji: profile.avatarEmoji,
+                    photoUrl: profile.photoUrl,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24.h),
+            const SettingsSection(),
+          ],
+        ),
       ),
     );
   }

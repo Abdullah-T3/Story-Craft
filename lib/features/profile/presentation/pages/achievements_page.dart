@@ -7,6 +7,7 @@ import 'package:story_craft/core/localization/locale_keys.g.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
 import 'package:story_craft/core/widgets/app_loading.dart';
+import 'package:story_craft/core/widgets/inherited_or_new_bloc.dart';
 import 'package:story_craft/features/profile/domain/entities/achievements_summary.dart';
 import 'package:story_craft/features/profile/presentation/cubit/achievements/achievements_cubit.dart';
 import 'package:story_craft/features/profile/presentation/cubit/achievements/achievements_state.dart';
@@ -21,8 +22,8 @@ class AchievementsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<AchievementsCubit>()..load(),
+    return InheritedOrNewBloc<AchievementsCubit>(
+      create: () => getIt<AchievementsCubit>()..load(),
       child: const _AchievementsView(),
     );
   }
@@ -66,28 +67,33 @@ class _AchievementsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: 32.h),
-      child: Column(
-        children: [
-          ScreenHeader(
-            title: LocaleKeys.profile_achievements_title.tr(),
-            trailing: CircleIconButton(
-              icon: Icons.ios_share_rounded,
-              onTap: () {},
+    return RefreshIndicator(
+      color: AppColors.primaryDark,
+      onRefresh: () => context.read<AchievementsCubit>().load(),
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(bottom: 32.h),
+        child: Column(
+          children: [
+            ScreenHeader(
+              title: LocaleKeys.profile_achievements_title.tr(),
+              trailing: CircleIconButton(
+                icon: Icons.ios_share_rounded,
+                onTap: () {},
+              ),
             ),
-          ),
-          SizedBox(height: 8.h),
-          CurrentLevelBanner(levelKey: summary.levelKey),
-          SizedBox(height: 24.h),
-          BadgesGrid(
-            badges: summary.badges,
-            unlocked: summary.unlockedCount,
-            total: summary.totalCount,
-          ),
-          SizedBox(height: 24.h),
-          StreakStrip(days: summary.streakDays, week: summary.streakWeek),
-        ],
+            SizedBox(height: 8.h),
+            CurrentLevelBanner(levelKey: summary.levelKey),
+            SizedBox(height: 24.h),
+            BadgesGrid(
+              badges: summary.badges,
+              unlocked: summary.unlockedCount,
+              total: summary.totalCount,
+            ),
+            SizedBox(height: 24.h),
+            StreakStrip(days: summary.streakDays, week: summary.streakWeek),
+          ],
+        ),
       ),
     );
   }

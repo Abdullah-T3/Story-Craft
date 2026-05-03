@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:story_craft/core/error/failures.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
@@ -11,6 +13,7 @@ import 'package:story_craft/features/profile/domain/entities/reader_stats.dart';
 import 'package:story_craft/features/profile/domain/entities/saved_story.dart';
 import 'package:story_craft/features/profile/domain/repositories/profile_repository.dart';
 import 'package:story_craft/features/profile/domain/services/badge_rules.dart';
+import 'package:story_craft/features/profile/domain/services/level_rules.dart';
 import 'package:story_craft/features/stories/domain/entities/reading_progress.dart';
 import 'package:story_craft/features/stories/domain/entities/story.dart';
 import 'package:story_craft/features/stories/domain/repositories/stories_repository.dart';
@@ -38,10 +41,33 @@ class ProfileRepositoryImpl implements ProfileRepository {
     }
     try {
       final data = await _firestore.getUser(uid);
-      if (data == null) {
-        return Right(_defaultProfile(uid));
+      final baseline = data == null
+          ? _defaultProfile(uid)
+          : readerProfileFromMap(uid, data);
+      // Enrich with derived counts/level so every screen that reads the
+      // profile sees consistent numbers and the right level title.
+      final history =
+          (await _stories.getHistory()).getRight().toNullable() ??
+          const <ReadingProgress>[];
+      final stats = _computeStats(history, baseline);
+      final badges = BadgeRules.evaluate(stats);
+      final unlocked = badges.where((b) => b.unlocked).length;
+      final levelKey = LevelRules.resolveKey(stats);
+
+      // Best-effort: mirror derived counts back to the user doc so other
+      // surfaces (other devices, future cold reads) show the same numbers.
+      if (unlocked != baseline.badgesCount || levelKey != baseline.levelKey) {
+        unawaited(
+          _firestore.updateUser(uid, {
+            'badgesCount': unlocked,
+            'levelKey': levelKey,
+          }),
+        );
       }
-      return Right(readerProfileFromMap(uid, data));
+
+      return Right(
+        baseline.copyWith(badgesCount: unlocked, levelKey: levelKey),
+      );
     } on Exception {
       return const Left(ServerFailure(message: 'تعذر جلب الملف الشخصي'));
     }
@@ -58,15 +84,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
             const <ReadingProgress>[];
         final stats = _computeStats(history, p);
         final badges = BadgeRules.evaluate(stats);
-        final unlockedCount = badges.where((b) => b.unlocked).length;
-        // Keep the user doc's badge count in sync so the profile header
-        // shows the same number unlocked on the achievements screen.
-        if (unlockedCount != p.badgesCount) {
-          await _persistBadgesCount(p.uid, unlockedCount);
-        }
         return Right(
           AchievementsSummary(
-            levelKey: p.levelKey,
+            levelKey: LevelRules.resolveKey(stats),
             badges: badges,
             streakDays: stats.streakDays,
             streakWeek: stats.streakWeek,
@@ -109,14 +129,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
       storiesPrinted: p.storiesPrinted,
       streakWeek: week,
     );
-  }
-
-  Future<void> _persistBadgesCount(String uid, int count) async {
-    try {
-      await _firestore.updateUser(uid, {'badgesCount': count});
-    } on Exception {
-      // Best-effort mirror — don't fail the achievements load over it.
-    }
   }
 
   @override
@@ -251,7 +263,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       displayName: _auth.currentUser?.displayName ?? '',
       avatarEmoji: '🐻',
       photoUrl: _auth.currentUser?.photoUrl ?? '',
-      levelKey: 'levelSkilledReader',
+      levelKey: 'levelBeginner',
       joinedAt: DateTime.now(),
       badgesCount: 0,
       storiesWritten: 0,

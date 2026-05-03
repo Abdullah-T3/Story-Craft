@@ -9,6 +9,7 @@ import 'package:story_craft/core/services/router/extantions.dart';
 import 'package:story_craft/core/theme/app_colors.dart';
 import 'package:story_craft/core/widgets/app_error_view.dart';
 import 'package:story_craft/core/widgets/app_loading.dart';
+import 'package:story_craft/core/widgets/inherited_or_new_bloc.dart';
 import 'package:story_craft/features/auth/domain/repositories/auth_repository.dart';
 import 'package:story_craft/features/stories/presentation/cubit/library/library_cubit.dart';
 import 'package:story_craft/features/stories/presentation/cubit/library/library_state.dart';
@@ -22,8 +23,8 @@ class LibraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<LibraryCubit>()..load(),
+    return InheritedOrNewBloc<LibraryCubit>(
+      create: () => getIt<LibraryCubit>()..load(),
       child: const _LibraryView(),
     );
   }

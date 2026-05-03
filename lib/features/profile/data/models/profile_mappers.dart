@@ -16,7 +16,7 @@ ReaderProfile readerProfileFromMap(String uid, Map<String, dynamic> data) {
     displayName: (data['childName'] ?? data['name'] ?? '') as String,
     avatarEmoji: (data['avatarEmoji'] ?? '🐻') as String,
     photoUrl: (data['photoUrl'] ?? '') as String,
-    levelKey: (data['levelKey'] ?? 'levelSkilledReader') as String,
+    levelKey: (data['levelKey'] ?? 'levelBeginner') as String,
     joinedAt: _parseTs(data['createdAt']),
     badgesCount: (data['badgesCount'] ?? 0) as int,
     storiesWritten: (data['storiesWritten'] ?? 0) as int,
