@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
+/// ////
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -70,7 +71,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '662555295980',
     projectId: 'story-book-9a330',
     storageBucket: 'story-book-9a330.firebasestorage.app',
-    iosClientId: '662555295980-n08mv609612d41j8rc97qlmp1kft19pj.apps.googleusercontent.com',
+    iosClientId:
+        '662555295980-n08mv609612d41j8rc97qlmp1kft19pj.apps.googleusercontent.com',
     iosBundleId: 'com.example.storyCraft',
   );
 }
