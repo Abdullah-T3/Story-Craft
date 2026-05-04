@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Data extraction rules for Android 12+ (API 31+).
+  Both <cloud-backup> and <device-transfer> are configured to exclude EVERYTHING,
+  matching android:allowBackup="false" / android:fullBackupContent="false" for older
+  Android versions. This protects Firebase Auth tokens and flutter_secure_storage data
+  from being copied to backups or migrated to other devices outside our control.
+
+  If you later want to allow specific files (e.g. user preferences) to back up to the
+  cloud, switch to <include domain="..." path="..."/> entries instead of <exclude>.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root"/>
+        <exclude domain="database"/>
+        <exclude domain="sharedpref"/>
+        <exclude domain="external"/>
+        <exclude domain="file"/>
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root"/>
+        <exclude domain="database"/>
+        <exclude domain="sharedpref"/>
+        <exclude domain="external"/>
+        <exclude domain="file"/>
+    </device-transfer>
+</data-extraction-rules>
