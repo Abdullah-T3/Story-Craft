@@ -143,7 +143,14 @@
         "parental": "الرقابة الأبوية",
         "parentalSubtitle": "حدد وقت القراءة والمحتوى المناسب",
         "notifications": "الإشعارات",
-        "notificationsSubtitle": "قصص جديدة، تذكيرات، شارات"
+        "notificationsSubtitle": "قصص جديدة، تذكيرات، شارات",
+        "logout": "تسجيل الخروج",
+        "logoutSubtitle": "الخروج من حسابك",
+        "logoutConfirmTitle": "تسجيل الخروج؟",
+        "logoutConfirmMessage": "ستحتاج إلى تسجيل الدخول مرة أخرى لمتابعة القراءة.",
+        "logoutConfirm": "تسجيل الخروج",
+        "logoutCancel": "إلغاء",
+        "logoutError": "تعذّر تسجيل الخروج. حاول مرة أخرى."
       }
     },
     "achievements": {

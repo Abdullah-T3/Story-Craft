@@ -143,7 +143,14 @@
         "parental": "Parental control",
         "parentalSubtitle": "Set reading time and allowed content",
         "notifications": "Notifications",
-        "notificationsSubtitle": "New stories, reminders, badges"
+        "notificationsSubtitle": "New stories, reminders, badges",
+        "logout": "Log out",
+        "logoutSubtitle": "Sign out of your account",
+        "logoutConfirmTitle": "Log out?",
+        "logoutConfirmMessage": "You will need to sign in again to keep reading.",
+        "logoutConfirm": "Log out",
+        "logoutCancel": "Cancel",
+        "logoutError": "Could not log out. Please try again."
       }
     },
     "achievements": {

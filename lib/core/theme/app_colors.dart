@@ -46,4 +46,8 @@ abstract final class AppColors {
   /// Border / divider colours
   static const Color borderLight = Color(0xFFCCCCCC);
   static const Color borderLighter = Color(0xFFDDDDDD);
+
+  /// Destructive / error
+  static const Color error = Color(0xFFD32F2F);
+  static const Color errorContainer = Color(0xFFFDECEA);
 }

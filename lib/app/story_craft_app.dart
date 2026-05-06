@@ -41,6 +41,9 @@ class _StoryCraftMaterialApp extends StatelessWidget {
           ? AppRoutes.mainLayoutPath
           : AppRoutes.onboardingPath,
       onGenerateRoute: AppRouter.onGenerateRoute,
+      onGenerateInitialRoutes: (initialRoute) => [
+        AppRouter.onGenerateRoute(RouteSettings(name: initialRoute)),
+      ],
       debugShowCheckedModeBanner: false,
     );
   }

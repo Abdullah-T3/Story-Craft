@@ -18,16 +18,44 @@ import 'package:story_craft/features/profile/presentation/pages/saved_stories_pa
 import 'package:story_craft/features/stories/presentation/cubit/library/library_cubit.dart';
 import 'package:story_craft/features/stories/presentation/pages/library_page.dart';
 
-class MainLayout extends StatefulWidget {
+class MainLayout extends StatelessWidget {
   const MainLayout({super.key, this.initialIndex = 0});
 
   final int initialIndex;
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LibraryCubit>(
+          create: (_) => getIt<LibraryCubit>()..load(),
+        ),
+        BlocProvider<SavedStoriesCubit>(
+          create: (_) => getIt<SavedStoriesCubit>()
+            ..load(SavedStoryListKind.favorites),
+        ),
+        BlocProvider<AchievementsCubit>(
+          create: (_) => getIt<AchievementsCubit>()..load(),
+        ),
+        BlocProvider<AccountCubit>(
+          create: (_) => getIt<AccountCubit>()..load(),
+        ),
+      ],
+      child: _MainLayoutBody(initialIndex: initialIndex),
+    );
+  }
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class _MainLayoutBody extends StatefulWidget {
+  const _MainLayoutBody({required this.initialIndex});
+
+  final int initialIndex;
+
+  @override
+  State<_MainLayoutBody> createState() => _MainLayoutBodyState();
+}
+
+class _MainLayoutBodyState extends State<_MainLayoutBody> {
   late int _currentIndex = widget.initialIndex;
 
   static const List<Widget> _screens = [
@@ -82,47 +110,30 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<LibraryCubit>(
-          create: (_) => getIt<LibraryCubit>()..load(),
-        ),
-        BlocProvider<SavedStoriesCubit>(
-          create: (_) => getIt<SavedStoriesCubit>()
-            ..load(SavedStoryListKind.favorites),
-        ),
-        BlocProvider<AchievementsCubit>(
-          create: (_) => getIt<AchievementsCubit>()..load(),
-        ),
-        BlocProvider<AccountCubit>(
-          create: (_) => getIt<AccountCubit>()..load(),
-        ),
-      ],
-      child: MainScaffold(
-        child: Scaffold(
-          body: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 280),
-            switchInCurve: Curves.easeOutCubic,
-            switchOutCurve: Curves.easeInCubic,
-            transitionBuilder: (child, animation) {
-              final offset = Tween<Offset>(
-                begin: const Offset(0.04, 0),
-                end: Offset.zero,
-              ).animate(animation);
-              return FadeTransition(
-                opacity: animation,
-                child: SlideTransition(position: offset, child: child),
-              );
-            },
-            child: KeyedSubtree(
-              key: ValueKey<int>(_currentIndex),
-              child: _screens[_currentIndex],
-            ),
+    return MainScaffold(
+      child: Scaffold(
+        body: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 280),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          transitionBuilder: (child, animation) {
+            final offset = Tween<Offset>(
+              begin: const Offset(0.04, 0),
+              end: Offset.zero,
+            ).animate(animation);
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(position: offset, child: child),
+            );
+          },
+          child: KeyedSubtree(
+            key: ValueKey<int>(_currentIndex),
+            child: _screens[_currentIndex],
           ),
-          bottomNavigationBar: _BottomNavBar(
-            currentIndex: _currentIndex,
-            onTap: _onTap,
-          ),
+        ),
+        bottomNavigationBar: _BottomNavBar(
+          currentIndex: _currentIndex,
+          onTap: _onTap,
         ),
       ),
     );

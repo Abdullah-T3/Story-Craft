@@ -1,5 +1,5 @@
 class AppRoutes {
-  static const String onboardingPath = '/';
+  static const String onboardingPath = '/OnboardingScreen';
   static const String loginPath = '/login';
   static const String signUpPath = '/sign-up';
   static const String mainLayoutPath = '/mainLayout';

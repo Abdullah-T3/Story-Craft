@@ -18,118 +18,116 @@ class OnboardingScreen extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 72.h),
-                    SizedBox(
-                      child: Stack(
-                        alignment: Alignment.center,
-                        clipBehavior: Clip.none,
-                        children: [
-                          const MascotSection(),
-                          Positioned(
-                            top: 40.h,
-                            left: -82.w,
-                            child: SvgPicture.asset(
-                              Assets.cloud2,
-                              width: 100.w,
-                              height: 60.h,
-                              fit: BoxFit.contain,
-                            ),
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+                  SizedBox(height: 72.h),
+                  SizedBox(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        const MascotSection(),
+                        Positioned(
+                          top: 40.h,
+                          left: -82.w,
+                          child: SvgPicture.asset(
+                            Assets.cloud2,
+                            width: 100.w,
+                            height: 60.h,
+                            fit: BoxFit.contain,
                           ),
-                          Positioned(
-                            top: -60.h,
-                            right: -50.w,
-                            child: SvgPicture.asset(
-                              Assets.cloud1,
-                              width: 100.w,
-                              height: 60.h,
-                              fit: BoxFit.contain,
-                            ),
+                        ),
+                        Positioned(
+                          top: -60.h,
+                          right: -50.w,
+                          child: SvgPicture.asset(
+                            Assets.cloud1,
+                            width: 100.w,
+                            height: 60.h,
+                            fit: BoxFit.contain,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 32.h),
+                  ),
+                  SizedBox(height: 32.h),
 
-                    Text(
-                      'قصصي',
-                      style: TextStyle(
-                        fontSize: 36.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.onPrimaryContainer,
-                      ),
-                      textAlign: TextAlign.center,
+                  Text(
+                    'قصصي',
+                    style: TextStyle(
+                      fontSize: 36.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onPrimaryContainer,
                     ),
+                    textAlign: TextAlign.center,
+                  ),
 
-                    SizedBox(height: 12.h),
+                  SizedBox(height: 12.h),
 
-                    Text(
-                      'اكتب قصصك وشارك خيالك',
+                  Text(
+                    'اكتب قصصك وشارك خيالك',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 16.sp,
+                      height: 1.4,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
+                  SizedBox(height: 52.h),
+
+                  SizedBox(
+                    width: 280.w,
+                    child: Buttons(
+                      label: 'سجّل دخول',
+                      style: AppButtonStyle.filled,
+                      backgroundColor: AppColors.primaryDark,
+                      suffixIcon: SvgPicture.asset(
+                        Assets.signInIcon,
+                        width: 16.w,
+                        height: 16.h,
+                      ),
+                      onPressed: () => context.pushNamed(AppRoutes.loginPath),
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  SizedBox(
+                    width: 280.w,
+                    child: Buttons(
+                      label: 'أنشئ حساب جديد',
+                      style: AppButtonStyle.outlined,
+                      suffixIcon: SvgPicture.asset(
+                        Assets.signUpIcon,
+                        width: 16.w,
+                        height: 16.h,
+                      ),
+                      onPressed: () => context.pushNamed(AppRoutes.signUpPath),
+                    ),
+                  ),
+
+                  SizedBox(height: 50.h),
+
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'استمرار بدون تسجيل',
                       style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 16.sp,
-                        height: 1.4,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-
-                    SizedBox(height: 52.h),
-
-                    SizedBox(
-                      width: 280.w,
-                      child: Buttons(
-                        label: 'سجّل دخول',
-                        style: AppButtonStyle.filled,
-                        backgroundColor: AppColors.primaryDark,
-                        suffixIcon: SvgPicture.asset(
-                          Assets.signInIcon,
-                          width: 16.w,
-                          height: 16.h,
-                        ),
-                        onPressed: () => context.pushNamed(AppRoutes.loginPath),
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: 16.h),
-
-                    SizedBox(
-                      width: 280.w,
-                      child: Buttons(
-                        label: 'أنشئ حساب جديد',
-                        style: AppButtonStyle.outlined,
-                        suffixIcon: SvgPicture.asset(
-                          Assets.signUpIcon,
-                          width: 16.w,
-                          height: 16.h,
-                        ),
-                        onPressed: () =>
-                            context.pushNamed(AppRoutes.signUpPath),
-                      ),
-                    ),
-
-                    SizedBox(height: 50.h),
-
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'استمرار بدون تسجيل',
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 118.h),
-                  ],
-                ),
+                  SizedBox(height: 118.h),
+                ],
               ),
             ),
           ),

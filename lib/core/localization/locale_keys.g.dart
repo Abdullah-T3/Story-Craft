@@ -134,6 +134,13 @@ abstract class  LocaleKeys {
   static const profile_account_settings_parentalSubtitle = 'profile.account.settings.parentalSubtitle';
   static const profile_account_settings_notifications = 'profile.account.settings.notifications';
   static const profile_account_settings_notificationsSubtitle = 'profile.account.settings.notificationsSubtitle';
+  static const profile_account_settings_logout = 'profile.account.settings.logout';
+  static const profile_account_settings_logoutSubtitle = 'profile.account.settings.logoutSubtitle';
+  static const profile_account_settings_logoutConfirmTitle = 'profile.account.settings.logoutConfirmTitle';
+  static const profile_account_settings_logoutConfirmMessage = 'profile.account.settings.logoutConfirmMessage';
+  static const profile_account_settings_logoutConfirm = 'profile.account.settings.logoutConfirm';
+  static const profile_account_settings_logoutCancel = 'profile.account.settings.logoutCancel';
+  static const profile_account_settings_logoutError = 'profile.account.settings.logoutError';
   static const profile_account_settings = 'profile.account.settings';
   static const profile_account = 'profile.account';
   static const profile_achievements_title = 'profile.achievements.title';
